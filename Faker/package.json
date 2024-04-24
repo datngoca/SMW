@@ -1,0 +1,15 @@
+{
+  "name": "project_smw",
+  "version": "1.0.0",
+  "main": "createFakeData.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "faker": "^5.5.3",
+    "mongoose": "^8.3.2"
+  }
+}
