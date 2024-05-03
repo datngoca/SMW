@@ -10,6 +10,7 @@ import usersRoutes from "./routes/user.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import employeeRoutes from "./routes/employee.routes.js";
 import customerRoutes from "./routes/customer.router.js";
+import orderRoutes from "./routes/order.routes.js";
 
 const app = express();
 
@@ -35,4 +36,5 @@ app.use("/api/users", usersRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/employee", employeeRoutes);
 app.use("/api/customer", customerRoutes);
+app.use("/api/order", orderRoutes);
 export default app;

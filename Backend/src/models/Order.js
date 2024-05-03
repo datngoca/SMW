@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 // Định nghĩa schema cho một sản phẩm trong đơn hàng
+
 const ProductSchema = new Schema({
   product_id: {
     type: String,
