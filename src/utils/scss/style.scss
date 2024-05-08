@@ -1,0 +1,90 @@
+//sass ./src/utils/scss/style.scss ./src/utils/css/style.css --watch
+
+// Menu
+* {
+  box-sizing: border-box;
+}
+
+.all {
+  margin: 20px 0;
+}
+.sidebar {
+  background-color: #adb9ab;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  height: 100vh;
+
+  &--header {
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+    // flex-wrap: wrap;
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 20px;
+
+    &__image {
+      width: 70px;
+      height: auto;
+    }
+  }
+
+  &--menu {
+    ul {
+      list-style-type: none;
+      font-weight: 500;
+
+      li {
+        margin-bottom: 20px;
+
+        .icon {
+          margin-right: 10px;
+          font-size: 20px;
+        }
+
+        .navlink {
+          text-decoration: none;
+          color: #000;
+        }
+      }
+    }
+  }
+}
+
+//End Menu
+
+.content {
+  &--header {
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+
+    &__title {
+      width: 80%;
+      text-align: center;
+
+      span {
+        background-color: #d1e7dd;
+        padding: 5px 10px;
+      }
+    }
+
+    &__icon {
+      width: 5%;
+    }
+
+    &__login {
+      width: 15%;
+      text-align: right;
+
+      span {
+        margin-right: 10px;
+        font-weight: 500;
+      }
+
+      img {
+        width: 50px;
+      }
+    }
+  }
+}
