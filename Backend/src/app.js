@@ -9,13 +9,13 @@ import productRoutes from "./routes/products.routes.js";
 import usersRoutes from "./routes/user.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import employeeRoutes from "./routes/employee.routes.js";
-import customerRoutes from "./routes/customer.router.js";
+import customerRoutes from "./routes/customer.routes.js";
 import orderRoutes from "./routes/order.routes.js";
 
 const app = express();
 
 // Settings
-app.set("port", process.env.PORT || 4000);
+app.set("port", process.env.PORT || 4060);
 app.set("json spaces", 4);
 
 // Middlewares
