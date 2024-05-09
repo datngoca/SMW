@@ -3,19 +3,20 @@
 }
 
 .all {
-  margin: 20px 0;
+  padding: 20px;
+  background-color: #ddd;
 }
 
 .sidebar {
   background-color: #adb9ab;
   border: 1px solid #ddd;
   border-radius: 20px;
-  height: 100vh;
+  min-height: 100%;
 }
 .sidebar--header {
   text-align: center;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 .sidebar--header__image {
   width: 70px;
@@ -63,6 +64,52 @@
 }
 .content--header__login img {
   width: 50px;
+}
+
+.btn {
+  color: #000;
+  font-weight: 600;
+}
+
+.card {
+  margin-top: 20px;
+  border-radius: 15px;
+}
+.card-button {
+  margin-right: 15px;
+}
+.card-header {
+  display: flex;
+  align-items: center;
+}
+.card-header strong {
+  font-size: 22px;
+  font-weight: 700;
+}
+.card th,
+.card td {
+  border-style: none;
+}
+.card .column {
+  padding: 8px 5px;
+  background-color: #ddd;
+  display: flex;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  width: 100%;
+  overflow: auto;
+}
+.card .column .box {
+  background-color: #ddd;
+  width: 20%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.card .column-thead {
+  background-color: #fff;
+}
+.card .column-thead .box-thead {
+  background-color: #fff;
 }
 
 /*# sourceMappingURL=style.css.map */
