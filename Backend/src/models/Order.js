@@ -4,22 +4,18 @@ const { Schema } = mongoose;
 
 // Định nghĩa schema cho một sản phẩm trong đơn hàng
 
-const ProductSchema = new Schema({
-  product_id: {
+const CustomersSchema = new Schema({
+  CustomerID: {
+    type: mongoose.Types.ObjectId,
+    require: true
+  },
+  Name: {
     type: String,
     required: true
   },
-  quantity: {
-    type: Number,
-    required: true
-  },
-  total_price: {
-    type: Number,
-    required: true
-  },
-  status: {
+  phonenumber: {
     type: String,
-    required: true
+    require: true
   }
 });
 
@@ -29,8 +25,8 @@ const OrderSchema = new Schema({
     type: mongoose.Types.ObjectId,
     required: true
   },
-  products: {
-    type: [ProductSchema],
+  customer: {
+    type: [CustomersSchema],
     required: true
   },
   order_date: {

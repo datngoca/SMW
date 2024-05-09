@@ -1,5 +1,5 @@
 import Customer from "../models/Customer.js";
-
+import mongoose from "mongoose";
 // Tạo mới một khách hàng
 export async function createCustomer(req, res) {
   const { name, email, phone_number, address, order_history } = req.body;
@@ -139,11 +139,12 @@ export const deleteOrderHistory = async (req, res) => {
 };
 export const getOrderHistoryID = async (req, res) => {
   try {
+    
     // Extract customerId and orderHistoryId from request parameters
     const { customerId, orderHistoryId } = req.params;
-
+    const id = mongoose.Types.ObjectId(customerId);
     // Logic to fetch order history by ID
-    const orderHistory = await OrderHistory.findById(orderHistoryId);
+    const orderHistory = await OrderHistory.findById(id);
 
     // Check if order history exists
     if (!orderHistory) {

@@ -3,11 +3,11 @@ import Order from "../models/Order.js";
 // Tạo một đơn hàng mới
 export const createOrder = async (req, res) => {
     try {
-        const { products, order_date, shipping_address, payment_method, payment_status } = req.body;
+        const { customer, order_date, shipping_address, payment_method, payment_status } = req.body;
 
         // Tạo một đối tượng đơn hàng mới
         const order = new Order({
-            products,
+            customer,
             order_date,
             shipping_address,
             payment_method,
@@ -78,8 +78,8 @@ export const deleteOrderById = async (req, res) => {
         return res.status(500).json({ success: false, error: 'Không thể xóa đơn hàng' });
     }
 };
-// Function to create a product in an order
-const createProduct = async (req, res) => {
+// Function to create a Customer in an order
+const createCustomer = async (req, res) => {
   try {
     const { orderId } = req.params; // Get orderId from request params
     const order = await Order.findById(orderId); // Find the order by orderId
@@ -88,19 +88,19 @@ const createProduct = async (req, res) => {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    // Create a new product and push it to the order's products array
-    order.products.push(req.body); // Assuming the request body contains product data
+    // Create a new Customer and push it to the order's customer array
+    order.customer.push(req.body); // Assuming the request body contains Customer data
     await order.save(); // Save the updated order
 
-    res.status(201).json(order.products[order.products.length - 1]); // Return the newly created product
+    res.status(201).json(order.customer[order.customer.length - 1]); // Return the newly created Customer
   } catch (error) {
-    console.error("Error creating product in order:", error);
+    console.error("Error creating Customer in order:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-// Function to get all products in an order
-const getProduct = async (req, res) => {
+// Function to get all customer in an order
+const getCustomer = async (req, res) => {
   try {
     const { orderId } = req.params; // Get orderId from request params
     const order = await Order.findById(orderId); // Find the order by orderId
@@ -109,90 +109,68 @@ const getProduct = async (req, res) => {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    res.status(200).json(order.products); // Return all products in the order
+    return res.status(200).json({ success: true, data: order.customer }); // Return all customer in the order
   } catch (error) {
-    console.error("Error getting products in order:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error getting customer in order:", error);
+    return res.status(500).json({ success: false, error: 'Lỗi khi đọc customer của khách hàng' });
   }
 };
 
-// Function to get a product by productId in an order
-const getProductById = async (req, res) => {
+
+// Function to update a Customer by CustomerId in an order
+const updateCustomer = async (req, res) => {
   try {
-    const { orderId, productId } = req.params; // Get orderId and productId from request params
+    const { orderId, CustomerId } = req.params; // Get orderId and CustomerId from request params
     const order = await Order.findById(orderId); // Find the order by orderId
 
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    const product = order.products.find(prod => prod._id == productId); // Find the product by productId
+    const CustomerIndex = order.customer.findIndex(prod => prod._id == CustomerId); // Find the index of the Customer by CustomerId
 
-    if (!product) {
-      return res.status(404).json({ message: "Product not found in order" });
+    if (CustomerIndex === -1) {
+      return res.status(404).json({ message: "Customer not found in order" });
     }
 
-    res.status(200).json(product); // Return the product
-  } catch (error) {
-    console.error("Error getting product by ID in order:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-
-// Function to update a product by productId in an order
-const updateProduct = async (req, res) => {
-  try {
-    const { orderId, productId } = req.params; // Get orderId and productId from request params
-    const order = await Order.findById(orderId); // Find the order by orderId
-
-    if (!order) {
-      return res.status(404).json({ message: "Order not found" });
-    }
-
-    const productIndex = order.products.findIndex(prod => prod._id == productId); // Find the index of the product by productId
-
-    if (productIndex === -1) {
-      return res.status(404).json({ message: "Product not found in order" });
-    }
-
-    // Update the product data
-    order.products[productIndex] = { ...order.products[productIndex], ...req.body }; // Assuming the request body contains updated product data
+    // Update the Customer data
+    order.customer[CustomerIndex] = { ...order.customer[CustomerIndex], ...req.body }; // Assuming the request body contains updated Customer data
     await order.save(); // Save the updated order
 
-    res.status(200).json(order.products[productIndex]); // Return the updated product
+    res.status(200).json(order.customer[CustomerIndex]); // Return the updated Customer
   } catch (error) {
-    console.error("Error updating product in order:", error);
+    console.error("Error updating Customer in order:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-// Function to delete a product by productId in an order
-const deleteProduct = async (req, res) => {
+// Function to delete a Customer by CustomerId in an order
+const deleteCustomer = async (req, res) => {
   try {
-    const { orderId, productId } = req.params; // Get orderId and productId from request params
+    const { orderId, CustomerId } = req.params; // Get orderId and CustomerId from request params
     const order = await Order.findById(orderId); // Find the order by orderId
 
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    const productIndex = order.products.findIndex(prod => prod._id == productId); // Find the index of the product by productId
+    const CustomerIndex = order.customer.findIndex(prod => prod._id == CustomerId); // Find the index of the Customer by CustomerId
 
-    if (productIndex === -1) {
-      return res.status(404).json({ message: "Product not found in order" });
+    if (CustomerIndex === -1) {
+      return res.status(404).json({ message: "Customer not found in order" });
     }
 
-    // Remove the product from the products array
-    order.products.splice(productIndex, 1);
+    // Remove the Customer from the customer array
+    order.customer.splice(CustomerIndex, 1);
     await order.save(); // Save the updated order
 
     res.status(204).json(); // Return no content for successful deletion
   } catch (error) {
-    console.error("Error deleting product in order:", error);
+    console.error("Error deleting Customer in order:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
 
-export { createProduct, getProduct, getProductById, updateProduct, deleteProduct };
+export { createCustomer, getCustomer, updateCustomer, deleteCustomer };
 
 
