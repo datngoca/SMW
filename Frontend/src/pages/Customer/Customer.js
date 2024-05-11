@@ -5,8 +5,8 @@ import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 import { MdDelete, MdEdit } from "react-icons/md";
 import axios from 'axios';
 
-function ProductList(props) {
-  const api = "products";
+function CustomerList(props) {
+  const api = "customer";
   const { reload } = props;
   const [data, setData] = useState([]);
   const [editReload, setEditReload] = useState(false);
@@ -42,9 +42,9 @@ function ProductList(props) {
       setStartIndex((currentPage - 2) * pageSize);
     }
   };
-  const handleDeleteProduct = (productId) => {
+  const handleDeleteCustomer = (customerId) => {
     if (window.confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?")) {
-      axios.delete(`http://localhost:4060/api/products/${productId}`)
+      axios.delete(`http://localhost:4060/api/customer/${customerId}`)
         .then(response => {
           // Xóa sản phẩm thành công, thực hiện các thao tác cập nhật danh sách sản phẩm hoặc giao diện
           console.log("Xóa sản phẩm thành công:", response.data);
@@ -65,19 +65,16 @@ function ProductList(props) {
           <span className="card-button">
             <GoBack />
           </span>
-          <strong>Danh sách sản phẩm</strong>
+          <strong>Danh sách khách hàng</strong>
         </div>
         <div className="card-body" style={{ position: "relative" }}>
           <table className="table text-center">
             <thead>
               <tr className="column column-thead">
-                <th className="box box-thead">STT</th>
                 <th className="box box-thead">Name</th>
-                <th className="box box-thead">Category</th>
-                <th className="box box-thead">No Of Producst</th>
-                <th className="box box-thead">Cost Value</th>
-                <th className="box box-thead">Service Provider</th>
-                <th className="box box-thead">Status</th>
+                <th className="box box-thead">Email</th>
+                <th className="box box-thead">Phone Number</th>
+                <th className="box box-thead">Address</th>
                 <th className="box box-thead">Actions</th>
               </tr>
             </thead>
@@ -86,18 +83,15 @@ function ProductList(props) {
                 data.data.slice(startIndex, startIndex + pageSize)
                   .map((item, index) => (
                     <tr className="column" key={item._id}>
-                      <td className="box">{startIndex + index + 1}</td>
                       <td className="box">{item.name}</td>
-                      <td className="box">{item.category}</td>
-                      <td className="box">{item.no_of_Products}</td>
-                      <td className="box">${item.price}</td>
-                      <td className="box">{item.serviceProvider}</td>
-                      <td className="box">{item.no_of_Products === 0 ? "Hết hàng" : "Còn hàng"} </td>
+                      <td className="box">{item.email}</td>
+                      <td className="box">{item.phone_number}</td>
+                      <td className="box">{item.address}</td>
                       <td className="box">
                         <button className="button">
                           <MdEdit />
                         </button>
-                        <button className="button" onClick={() => handleDeleteProduct(item._id)}>
+                        <button className="button" onClick={() => handleDeleteCustomer(item._id)}>
                           <MdDelete />
                         </button>
                       </td>
@@ -119,4 +113,4 @@ function ProductList(props) {
   );
 }
 
-export default ProductList;
+export default CustomerList;

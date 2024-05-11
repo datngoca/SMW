@@ -10,29 +10,35 @@
 .sidebar {
   background-color: #adb9ab;
   border: 1px solid #ddd;
-  border-radius: 20px;
-  min-height: 100%;
+  border-radius: 17px;
+  min-height: 94.3vh;
 }
+
 .sidebar--header {
   text-align: center;
   font-weight: 700;
   margin: 20px 0;
 }
+
 .sidebar--header__image {
   width: 70px;
   height: auto;
 }
+
 .sidebar--menu ul {
   list-style-type: none;
   font-weight: 500;
 }
+
 .sidebar--menu ul li {
   margin-bottom: 20px;
 }
+
 .sidebar--menu ul li .icon {
   margin-right: 10px;
   font-size: 20px;
 }
+
 .sidebar--menu ul li .navlink {
   text-decoration: none;
   color: #000;
@@ -43,25 +49,31 @@
   align-items: center;
   margin-right: 10px;
 }
+
 .content--header__title {
   width: 80%;
   text-align: center;
 }
+
 .content--header__title span {
   background-color: #d1e7dd;
   padding: 5px 10px;
 }
+
 .content--header__icon {
   width: 5%;
 }
+
 .content--header__login {
   width: 15%;
   text-align: right;
 }
+
 .content--header__login span {
   margin-right: 10px;
   font-weight: 500;
 }
+
 .content--header__login img {
   width: 50px;
 }
@@ -75,21 +87,26 @@
   margin-top: 20px;
   border-radius: 15px;
 }
+
 .card-button {
   margin-right: 15px;
 }
+
 .card-header {
   display: flex;
   align-items: center;
 }
+
 .card-header strong {
   font-size: 22px;
   font-weight: 700;
 }
+
 .card th,
 .card td {
   border-style: none;
 }
+
 .card .column {
   padding: 8px 5px;
   background-color: #ddd;
@@ -99,15 +116,18 @@
   width: 100%;
   overflow: auto;
 }
+
 .card .column .box {
   background-color: #ddd;
   width: 20%;
   white-space: nowrap;
   overflow: hidden;
 }
+
 .card .column-thead {
   background-color: #fff;
 }
+
 .card .column-thead .box-thead {
   background-color: #fff;
 
@@ -119,15 +139,32 @@
   text-decoration: none;
   text-align: center;
   font-size: 16px;
-  text-align: center;
+  background-color: inherit;
 }
 
 .button:hover {
-  background-color: #ffffff;
+  background-color: inherit;
 }
 
 .button:active {
-  background-color: #ffffff;
+  background-color: inherit;
+}
+
+.button-number {
+  border: none;
+  border-radius: 25%;
+  background-color: inherit;
+  font-size: 16px;
+  margin-right: 5px;
+  margin-left: 5px;
+
+  text-align: center; /* Căn giữa văn bản theo chiều ngang */
+  display: flex; /* Sử dụng mô hình flexbox */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+}
+.button-number:hover{
+  background-color: rgb(53, 196, 53);
 }
 
 /*# sourceMappingURL=style.css.map */

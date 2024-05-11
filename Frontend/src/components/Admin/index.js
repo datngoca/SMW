@@ -19,7 +19,9 @@ const Admin = () => {
                 <div className="content--header__title">
                   <span>MODERN SALES TECHNOLOGY</span>
                 </div>
-                <FaBell className="content--header__icon" />
+
+                <FaBell style={{ position: "absolute", top: 34 , right: 180 }} className="content--header__icon" />
+
                 <div className="content--header__login">
                   <span className="name">Admin</span>
                   <NavLink to="/">
