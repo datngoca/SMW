@@ -24,7 +24,7 @@ const Admin = () => {
 
                 <div className="content--header__login">
                   <span className="name">Admin</span>
-                  <NavLink to="/">
+                  <NavLink to="/login">
                     <img className="image" src="images/Logo.png" alt="Login" />
                   </NavLink>
                 </div>
