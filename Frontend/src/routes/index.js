@@ -5,6 +5,7 @@ import Products from "../pages/Products";
 import Customer from "../pages/Customer";
 import Login from "../pages/Login";
 import { PrivateRoute } from "../App";
+import Register from "../pages/Register";
 // import { useAuth } from '../AuthContext';
 // import { Navigate } from 'react-router-dom';
 
@@ -12,6 +13,10 @@ export const routes = [
   {
     path: "login",
     element: <Login />,
+  },
+  {
+    path: "register",
+    element: <Register />,
   },
   {
     path: "/",
