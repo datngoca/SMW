@@ -90,25 +90,25 @@
 .card td {
   border-style: none;
 }
-.card .column {
+.card .table .column {
   padding: 8px 5px;
   background-color: #ddd;
   display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
   margin-bottom: 20px;
   border-radius: 10px;
   width: 100%;
   overflow: auto;
 }
-.card .column .box {
+.card .table .column .box {
   background-color: #ddd;
   width: 20%;
-  white-space: nowrap;
-  overflow: hidden;
 }
-.card .column-thead {
+.card .table .column-thead {
   background-color: #fff;
 }
-.card .column-thead .box-thead {
+.card .table .column-thead .box-thead {
   background-color: #fff;
 }
 

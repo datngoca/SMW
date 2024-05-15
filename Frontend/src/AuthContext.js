@@ -12,6 +12,7 @@ export function AuthProvider() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const login = () => {
+
     setIsLoggedIn(true);
   };
 

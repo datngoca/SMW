@@ -2,18 +2,26 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../AuthContext";
+// import { useAuth } from "../../AuthContext";
 
 function Login() {
+  
   const navigate = useNavigate();
-  const { login } = useAuth();
+  // const { login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login();
-    navigate("/");
+    if (username === 'admin' && password === '123') {
+      sessionStorage.setItem('isAuthenticated', 'true');
+      // login();
+      
+      navigate("/");
+      alert('Đăng nhập thành công!');
+    } else {
+      alert('Thông tin đăng nhập không đúng');
+    }
   };
 
   return (

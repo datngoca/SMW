@@ -3,7 +3,7 @@ import { getResource } from "../../services/services";
 import GoBack from "../../components/GoBack";
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 import { MdDelete, MdEdit } from "react-icons/md";
-import axios from 'axios';
+import axios from "axios";
 
 function ProductList(props) {
   const api = "products";
@@ -44,18 +44,19 @@ function ProductList(props) {
   };
   const handleDeleteProduct = (productId) => {
     if (window.confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?")) {
-      axios.delete(`http://localhost:4060/api/products/${productId}`)
-        .then(response => {
+      axios
+        .delete(`http://localhost:4060/api/products/${productId}`)
+        .then((response) => {
           // Xóa sản phẩm thành công, thực hiện các thao tác cập nhật danh sách sản phẩm hoặc giao diện
           console.log("Xóa sản phẩm thành công:", response.data);
           reload();
         })
-        .catch(error => {
+        .catch((error) => {
           // Xử lý lỗi nếu có
           console.error("Lỗi khi xóa sản phẩm:", error);
         });
     }
-  }
+  };
   console.log(data);
 
   return (
@@ -83,7 +84,8 @@ function ProductList(props) {
             </thead>
             <tbody>
               {data.data &&
-                data.data.slice(startIndex, startIndex + pageSize)
+                data.data
+                  .slice(startIndex, startIndex + pageSize)
                   .map((item, index) => (
                     <tr className="column" key={item._id}>
                       <td className="box">{startIndex + index + 1}</td>
@@ -92,24 +94,36 @@ function ProductList(props) {
                       <td className="box">{item.no_of_Products}</td>
                       <td className="box">${item.price}</td>
                       <td className="box">{item.serviceProvider}</td>
-                      <td className="box">{item.no_of_Products === 0 ? "Hết hàng" : "Còn hàng"} </td>
                       <td className="box">
-                        <button className="button">
-                          <MdEdit />
-                        </button>
-                        <button className="button" onClick={() => handleDeleteProduct(item._id)}>
-                          <MdDelete />
-                        </button>
+                        {item.no_of_Products === 0 ? "Hết hàng" : "Còn hàng"}{" "}
+                      </td>
+                      <td className="box">
+                        <span className="box">
+                          <button className="btn--delete me-1 btn">
+                            <MdDelete />
+                          </button>
+                          <button className="btn--edit btn">
+                            <MdEdit />
+                          </button>
+                        </span>
                       </td>
                     </tr>
                   ))}
             </tbody>
           </table>
           <div style={{ position: "absolute", bottom: 15, right: 20 }}>
-            <button className="button" onClick={handlePreviousPage} disabled={currentPage === 1}>
+            <button
+              className="button"
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+            >
               <GrLinkPrevious />
             </button>
-            <button className="button" onClick={handleNextPage} disabled={currentPage === totalPages}>
+            <button
+              className="button"
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
               <GrLinkNext />
             </button>
           </div>
