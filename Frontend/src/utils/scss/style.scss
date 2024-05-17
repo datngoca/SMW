@@ -123,28 +123,36 @@
     border-style: none;
   }
 
-  .column {
-    padding: 8px 5px;
-    background-color: #ddd;
-    display: flex;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    width: 100%;
-    overflow: auto;
+  .table {
+    // display: flex;
+    // flex-wrap: wrap;
 
-    .box {
+    .column {
+      padding: 8px 5px;
       background-color: #ddd;
-      width: 20%;
-      white-space: nowrap;
-      overflow: hidden;
+      display: flex;
+      align-items: center;
+      // justify-content: center;
+      flex-wrap: nowrap;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      width: 100%;
+      overflow: auto;
+  
+      .box {
+        background-color: #ddd;
+        width: 20%;
+        // white-space: nowrap;
+        // overflow: hidden;
+      }
     }
-  }
-
-  .column-thead {
-    background-color: #fff;
-
-    .box-thead {
+  
+    .column-thead {
       background-color: #fff;
+  
+      .box-thead {
+        background-color: #fff;
+      }
     }
   }
 }

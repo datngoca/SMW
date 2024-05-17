@@ -76,7 +76,8 @@ function ProductList(props) {
             </thead>
             <tbody>
               {data.data &&
-                data.data.slice(startIndex, startIndex + pageSize)
+                data.data
+                  .slice(startIndex, startIndex + pageSize)
                   .map((item, index) => (
                     <tr className="column" key={item._id}>
                       <td className="box">{startIndex + index + 1}</td>
@@ -85,7 +86,9 @@ function ProductList(props) {
                       <td className="box">{item.no_of_Products}</td>
                       <td className="box">${item.price}</td>
                       <td className="box">{item.serviceProvider}</td>
-                      <td className="box">{item.no_of_Products === 0 ? "Hết hàng" : "Còn hàng"} </td>
+                      <td className="box">
+                        {item.no_of_Products === 0 ? "Hết hàng" : "Còn hàng"}{" "}
+                      </td>
                       <td className="box">
                         <button className="btn--edit btn"><MdEdit /></button>
                         <DeleteProducts onReload={handleReload} item={item}/>         
@@ -95,10 +98,18 @@ function ProductList(props) {
             </tbody>
           </table>
           <div style={{ position: "absolute", bottom: 15, right: 20 }}>
-            <button className="button" onClick={handlePreviousPage} disabled={currentPage === 1}>
+            <button
+              className="button"
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+            >
               <GrLinkPrevious />
             </button>
-            <button className="button" onClick={handleNextPage} disabled={currentPage === totalPages}>
+            <button
+              className="button"
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+            >
               <GrLinkNext />
             </button>
           </div>

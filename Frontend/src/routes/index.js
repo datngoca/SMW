@@ -6,6 +6,7 @@ import Customer from "../pages/Customer";
 import Login from "../pages/Login";
 import { PrivateRoute } from "../App";
 import Register from "../pages/Register";
+import CreateOrderList from "../pages/OrdersList/CreateOrderList";
 // import { useAuth } from '../AuthContext';
 // import { Navigate } from 'react-router-dom';
 
@@ -29,6 +30,12 @@ export const routes = [
       {
         path: "ordersList",
         element: <OrdersList />,
+        children: [
+          {
+            path: "create",
+            element: <CreateOrderList />
+          }
+        ]
       },
       {
         path: "products",
