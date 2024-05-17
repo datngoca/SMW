@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema(
         ref: "Role",
       },
     ],
+    loginAttempts: { 
+      type: Number, 
+      default: 0 
+    }
   },
   {
     timestamps: true,

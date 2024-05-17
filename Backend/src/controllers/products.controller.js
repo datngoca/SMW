@@ -5,7 +5,7 @@ const USER_AUTOCOMPLETE_INDEX_NAME = 'user_autocomplete'
 
 
 export const createProduct = async (req, res) => {
-  const { name, category, no_of_Products, price, serviceProvider, status  } = req.body;
+  const { name, category, no_of_Products, price, serviceProvider } = req.body;
 
   try {
     const newProduct = new Product({
@@ -14,7 +14,6 @@ export const createProduct = async (req, res) => {
       no_of_Products,
       price,
       serviceProvider,
-      status,
     });
 
     const productSaved = await newProduct.save();
@@ -57,74 +56,6 @@ export const deleteProductById = async (req, res) => {
 };
 
 
-// export const search = async (req, res) => {
-//   const searchQuery = req.query.query
-//   const country = req.query.name
-
-//   if (!searchQuery || searchQuery.length < 2) {
-//     res.json([])
-//     return
-//   }
-
-//   // const db = mongoClient.db('tutorial')
-//   // const collection = db.collection<Product>(MONGODB_COLLECTION)
-//   const collection = Product.find()
-//   const pipeline = []
-
-//   if (country) {
-//     pipeline.push({
-//       $search: {
-//         index: USER_SEARCH_INDEX_NAME,
-//         compound: {
-//           must: [
-//             {
-//               text: {
-//                 query: searchQuery,
-//                 path: ['name', 'price'],
-//                 fuzzy: {},
-//               },
-//             },
-//             {
-//               text: {
-//                 query: country,
-//                 path: 'country',
-//               },
-//             },
-//           ],
-//         },
-//       },
-//     })
-//   } else {
-//     pipeline.push({
-//       $search: {
-//         index: USER_SEARCH_INDEX_NAME,
-//         text: {
-//           query: searchQuery,
-//           path: ['fullName', 'email'],
-//           fuzzy: {},
-//         },
-//       },
-//     })
-//   }
-
-//   pipeline.push({
-//     $project: {
-//       _id: 0,
-//       score: {$meta: 'searchScore'},
-//       userId: 1,
-//       fullName: 1,
-//       email: 1,
-//       avatar: 1,
-//       registeredAt: 1,
-//       country: 1,
-//     },
-//   })
-
-//   const result = await collection.aggregate(pipeline).sort({score: -1}).limit(10)
-//   const array = await result.toArray()
-//   res.json(array)
-
-// }
 export const searchProduct = async (req, res) => {
   try {
     let results;

@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { getResource } from "../../services/services";
 import GoBack from "../../components/GoBack";
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
-import { MdDelete, MdEdit } from "react-icons/md";
-import axios from 'axios';
+import { MdEdit } from "react-icons/md";
+import CreateCustomer from "./CreateCustomer";
+import DeleteCustomer from "./DeleteCustomer";
 
 function CustomerList(props) {
   const api = "customer";
@@ -11,10 +12,13 @@ function CustomerList(props) {
   const [data, setData] = useState([]);
   const [editReload, setEditReload] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(6); // Số mục trên mỗi trang
+  const [pageSize] = useState(6); // Số mục trên mỗi trang
   const [totalPages, setTotalPages] = useState(0);
   const [startIndex, setStartIndex] = useState(0); // Chỉ số bắt đầu của mỗi trang
 
+  const handleReload = () => {
+    setEditReload(!editReload);
+  };
   useEffect(() => {
     const fetchData = async () => {
       const result = await getResource(api);
@@ -25,7 +29,7 @@ function CustomerList(props) {
       setStartIndex((currentPage - 1) * pageSize);
     };
     fetchData();
-  }, [reload, currentPage, pageSize]);
+  }, [reload, currentPage, pageSize, editReload]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -42,21 +46,6 @@ function CustomerList(props) {
       setStartIndex((currentPage - 2) * pageSize);
     }
   };
-  const handleDeleteCustomer = (customerId) => {
-    if (window.confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?")) {
-      axios.delete(`http://localhost:4060/api/customer/${customerId}`)
-        .then(response => {
-          // Xóa sản phẩm thành công, thực hiện các thao tác cập nhật danh sách sản phẩm hoặc giao diện
-          console.log("Xóa sản phẩm thành công:", response.data);
-          reload();
-        })
-        .catch(error => {
-          // Xử lý lỗi nếu có
-          console.error("Lỗi khi xóa sản phẩm:", error);
-        });
-    }
-  }
-  console.log(data);
 
   return (
     <>
@@ -66,6 +55,9 @@ function CustomerList(props) {
             <GoBack />
           </span>
           <strong>Danh sách khách hàng</strong>
+          <span className="card-button">
+            <CreateCustomer onReload={handleReload} />
+          </span>
         </div>
         <div className="card-body" style={{ position: "relative" }}>
           <table className="table text-center">
@@ -88,19 +80,17 @@ function CustomerList(props) {
                       <td className="box">{item.phone_number}</td>
                       <td className="box">{item.address}</td>
                       <td className="box">
-                        <button className="button">
+                        <button className="btn--edit btn">
                           <MdEdit />
                         </button>
-                        <button className="button" onClick={() => handleDeleteCustomer(item._id)}>
-                          <MdDelete />
-                        </button>
+                        <DeleteCustomer onReload={handleReload} item={item} />
                       </td>
                     </tr>
                   ))}
             </tbody>
           </table>
           <div style={{ position: "absolute", bottom: 15, right: 20 }}>
-            <button className="button" onClick={handlePreviousPage} disabled={currentPage === 1}>
+            <button className="box" onClick={handlePreviousPage} disabled={currentPage === 1}>
               <GrLinkPrevious />
             </button>
             <button className="button" onClick={handleNextPage} disabled={currentPage === totalPages}>

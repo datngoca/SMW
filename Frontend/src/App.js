@@ -1,12 +1,12 @@
 // import { Navigate } from "react-router-dom";
-import { useContext } from "react";
+// import { useContext } from "react";
 import "./App.css";
-import { AuthContext, AuthProvider, useAuth } from "./AuthContext";
+// import { AuthContext, AuthProvider, useAuth } from "./AuthContext";
 import AllRoute from "./components/AllRoute";
 import { Navigate } from "react-router-dom";
 
 function App() {
-  
+
   // const { isLoggedIn } = useContext(AuthContext);
 
   // if (!isLoggedIn) {
@@ -16,17 +16,16 @@ function App() {
 
   return (
     <>
-      <AuthProvider>
-        <AllRoute />
-      </AuthProvider>
+      <AllRoute />
     </>
   );
 }
 
 export function PrivateRoute({ component }) {
-  const { isLoggedIn } = useAuth();
+  const isAuthenticated = sessionStorage.getItem('isAuthenticated');
+  console.log(isAuthenticated);
 
-  if (!isLoggedIn) {
+  if (!isAuthenticated) {
     return <Navigate to="/login" />;
   }
 

@@ -1,44 +1,87 @@
-// components/Login.js
-
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../AuthContext";
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import 'sweetalert2/src/sweetalert2.scss';
+import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth();
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login();
-    navigate("/");
+    try {
+      const response = await axios.post("http://localhost:4060/api/auth/signin", { email, password });
+      if(response){
+        Swal.fire({
+          icon: "success",
+          title: "Đăng nhập thành công",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+        localStorage.setItem("tokens", response.data.token);
+        sessionStorage.setItem('isAuthenticated', 'true');
+        //login();
+        navigate("/");
+      }
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+      }
+      console.error("Đăng nhập thất bại:", error);
+    }
   };
 
   return (
-    <div className="container">
-      <form className="form" onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
+    <div className="login-page">
+      <div className="login ">
+        <form onSubmit={handleSubmit}>
+          <div className="box">
+            <div className="container">
+              <div className="top-header">
+              </div>
+              <div className="input-field">
+                <input
+                  className="input"
+                  placeholder="Email"
+                  type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                
+                <i className="bx bx-user"></i>
+              </div>
+              <div className="input-field">
+                
+                <input
+                  type="password"
+                  className="input"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+               
+                <i className="bx bx-lock-alt"></i>
+              </div>
+              <div className="input-field">
+                <input type="submit" className="submit-login" value="Login" />
+              </div>
+              <div className="bottom">
+                <div className="right">
+                  <label><a href="/register">Already have an account?</a></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
     </div>
+
   );
 }
 

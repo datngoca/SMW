@@ -1,25 +1,55 @@
 import Order from "../models/Order.js";
 import Product from "../models/Product.js";
 import Customer from "../models/Customer.js";
+import mongoose from 'mongoose';
+
 // Tạo một đơn hàng mới
 export const createOrder = async (req, res) => {
   try {
-    const { customer, order_date, shipping_address, payment_method, payment_status } = req.body;
-
-    // Tạo một đối tượng đơn hàng mới
-    const order = new Order({
-      customer,
-      product,
+    const {
+      customerPhoneNumber, // Lấy số điện thoại khách hàng từ yêu cầu
+      productNames, // Mảng tên các sản phẩm được thêm vào đơn hàng
       order_date,
       shipping_address,
       payment_method,
       payment_status
+    } = req.body;
+
+    // Tìm kiếm khách hàng trong bảng Customer bằng số điện thoại
+    const customer = await Customer.findOne({ phone_number: customerPhoneNumber });
+
+    if (!customer) {
+      return res.status(404).json({ success: false, error: 'Customer not found' });
+    }
+
+    // Tìm kiếm các sản phẩm trong bảng Product bằng tên sản phẩm
+    const products = await Product.find({ name: { $in: productNames } });
+
+    if (!products) {
+      return res.status(404).json({ success: false, error: 'Products not found' });
+    }
+
+    // Tạo một mảng các đối tượng sản phẩm từ các thông tin sản phẩm đã tìm thấy
+    const productsToAdd = products.map(product => ({
+      name: product.name,
+      price: product.price
+    }));
+
+    // Tạo một đối tượng đơn hàng mới
+    const order = new Order({
+      _id: new mongoose.Types.ObjectId(),
+      customer: { name: customer.name, phone_number: customer.phone_number }, // Thêm thông tin của khách hàng vào đơn hàng
+      product: productsToAdd, // Thêm sản phẩm vào đơn hàng
+      order_date: order_date,
+      shipping_address: shipping_address,
+      payment_method: payment_method,
+      payment_status: payment_status
     });
 
     // Lưu đơn hàng mới
     const savedOrder = await order.save();
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       data: savedOrder
     });

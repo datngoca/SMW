@@ -2,9 +2,9 @@ import Customer from "../models/Customer.js";
 import mongoose from "mongoose";
 // Tạo mới một khách hàng
 export const createCustomer = async (req, res) => {
-  const { name, email, phone_number, address, order_history } = req.body;
+  const { name, email, phone_number, address } = req.body;
   try {
-    const customer = new Customer({ name, email, phone_number, address, order_history });
+    const customer = new Customer({ name, email, phone_number, address});
     await customer.save();
     res.status(201).json({ success: true, data: customer });
   } catch (error) {

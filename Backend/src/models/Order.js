@@ -2,51 +2,33 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-// Định nghĩa schema cho một sản phẩm trong đơn hàng
 
-const CustomersSchema = new Schema({
-  _id: {
-    type: mongoose.Types.ObjectId,
-    required: true
-  },
-  Name: {
-    type: String,
-    required: true
-  },
-  phonenumber: {
-    type: String,
-    required: true
-  }
-});
-const productSchema = new Schema({
-  _id: {
-    type: mongoose.Types.ObjectId,
-    required: true
-  },
-  name:{
-    type: String,
-    required: true
-  },
-  price: {
-    type: Number,
-    default: 0,
-  },
-});
-
-// Định nghĩa schema cho đơn hàng
 const OrderSchema = new Schema({
   _id: {
     type: mongoose.Types.ObjectId,
     required: true
   },
   customer: {
-    type: [CustomersSchema],
-    required: true
+    name: {
+      type: String,
+      required: true
+    },
+    phone_number: {
+      type: String,
+      required: true
+    }
   },
-  product:{
-    type: [productSchema],
-    required: true
-  },
+  // Include only specific fields from productSchema
+  product: [{
+    name: {
+      type: String,
+      required: true
+    },
+    price: {
+      type: Number,
+      required: true
+    }
+  }],
   order_date: {
     type: Date,
     required: true
