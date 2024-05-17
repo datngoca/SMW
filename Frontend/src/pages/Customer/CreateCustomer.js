@@ -3,6 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import 'sweetalert2/src/sweetalert2.scss';
 import Modal from "react-modal";
+
 function CreateProducts(props) {
   const [showModal, setShowModal] = useState(false);
   const { onReload } = props;
