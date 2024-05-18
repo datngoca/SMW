@@ -101,6 +101,7 @@ export const signinHandler = async (req, res) => {
     });
 
     res.json({ success: true, data: userFound, token });
+    userFound.loginAttempts=0;
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Server error" });

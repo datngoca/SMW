@@ -1,6 +1,6 @@
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
-import { deleteResource } from "../../services/services";
+// import { deleteResource } from "../../services/services";
 import { MdDelete } from "react-icons/md";
 import axios from "axios";
 
@@ -9,7 +9,7 @@ function DeleteProducts(props) {
   const { item, onReload } = props;
 
   const deleteItem = async () => {
-    const result = await axios(`http://localhost:4060/api/products/${item._id}`);
+    const result = await axios.delete(`http://localhost:4060/api/products/${item._id}`);
     if (result) {
       onReload();
       Swal.fire({

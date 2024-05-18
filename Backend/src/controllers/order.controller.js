@@ -82,13 +82,56 @@ export const getAllOrders = async (req, res) => {
   }
 };
 export const updateOrderById = async (req, res) => {
-  const { orderId } = req.params;
   try {
-    const updatedOrder = await Order.findByIdAndUpdate(orderId, req.body, { new: true });
-    if (!updatedOrder) {
+    const { id } = req.params; // Get the order ID from the request parameters
+    const {
+      customerPhoneNumber, // Customer phone number from request body
+      productNames, // Array of product names to be added to the order
+      order_date,
+      shipping_address,
+      payment_method,
+      payment_status
+    } = req.body;
+
+    // Find the order by ID
+    const order = await Order.findById(id);
+    if (!order) {
       return res.status(404).json({ success: false, error: 'Order not found' });
     }
-    return res.status(200).json({ success: true, data: updatedOrder });
+
+    // Find the customer by phone number
+    const customer = await Customer.findOne({ phone_number: customerPhoneNumber });
+    if (!customer) {
+      return res.status(404).json({ success: false, error: 'Customer not found' });
+    }
+
+    // Find the products by their names
+    const products = await Product.find({ name: { $in: productNames } });
+    if (!products || products.length === 0) {
+      return res.status(404).json({ success: false, error: 'Products not found' });
+    }
+
+    // Create an array of product objects from the found product information
+    const productsToAdd = products.map(product => ({
+      name: product.name,
+      price: product.price
+    }));
+
+    // Update the order fields
+    order.customer = { name: customer.name, phone_number: customer.phone_number }; // Update customer information
+    order.product = productsToAdd; // Update products in the order
+    order.order_date = order_date;
+    order.shipping_address = shipping_address;
+    order.payment_method = payment_method;
+    order.payment_status = payment_status;
+
+    // Save the updated order
+    const updatedOrder = await order.save();
+
+    return res.status(200).json({
+      success: true,
+      data: updatedOrder
+    });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, error: 'Could not update order' });

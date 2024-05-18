@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { getResource } from "../../services/services";
 import GoBack from "../../components/GoBack";
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
-import { MdEdit } from "react-icons/md";
+
 // import axios from 'axios';
 import CreateOrderList from "./CreateOrderList";
 import DeleteOrdersList from "./DeleteOrdersList";
+import EditOrderList from "./EditOrder";
 
 function OrdersList(props) {
   const api = "order";
@@ -21,19 +22,6 @@ function OrdersList(props) {
   const handleReload = () => {
     setEditReload(!editReload);
   };
-  const api = "order";
-  const { reload } = props;
-  const [data, setData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  //eslint-disable-next-line
-  const [pageSize, setPageSize] = useState(5); // Số mục trên mỗi trang
-  const [totalPages, setTotalPages] = useState(0);
-  const [startIndex, setStartIndex] = useState(0); // Chỉ số bắt đầu của mỗi trang
-  const [editReload, setEditReload] = useState(false);
-
-  const handleReload = () => {
-    setEditReload(!editReload);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,13 +46,7 @@ function OrdersList(props) {
     fetchData();
   }, [reload, currentPage, pageSize, editReload]);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-      // Cập nhật chỉ số bắt đầu khi chuyển trang
-      setStartIndex(currentPage * pageSize);
-    }
-  };
+
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -73,13 +55,7 @@ function OrdersList(props) {
     }
   };
 
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-      // Cập nhật chỉ số bắt đầu khi chuyển trang
-      setStartIndex((currentPage - 2) * pageSize);
-    }
-  };
+ 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -88,46 +64,6 @@ function OrdersList(props) {
     }
   };
 
-  return (
-    <>
-      <div className="card mb-3">
-        <div className="card-header">
-          <span className="card-button">
-            <GoBack />
-          </span>
-          <strong>Danh sách đặt hàng</strong>
-          <span className="card-button">
-            <CreateOrderList onReload={handleReload} />
-          </span>
-        </div>
-        <div className="card-body" style={{ position: "relative" }}>
-          <table className="table text-center">
-            <thead>
-              <tr className="column column-thead">
-                <th className="box box-thead">STT</th>
-                <th className="box box-thead">Ngày Đặt Hàng</th>
-                <th className="box box-thead">Địa chỉ Giao Hàng</th>
-                <th className="box box-thead">Phương Thức Thanh Toán</th>
-                <th className="box box-thead">Khách Hàng</th>
-                <th className="box box-thead">Số điện thoại</th>
-                <th className="box box-thead">Sản phẩm</th>
-                <th className="box box-thead">Tổng giá đơn hàng</th>
-                <th className="box box-thead">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.data &&
-                data.data
-                  .slice(startIndex, startIndex + pageSize)
-                  .map((item, index) => {
-                    let total = 0; // Initialize total price variable
-                    let productsCount = {};
-                    item.product.forEach((product) => {
-                      total += product.price; // Add price of each product to total
-                      // Increase count for each product id
-                      productsCount[product._id] =
-                        (productsCount[product._id] || 0) + 1;
-                    });
   return (
     <>
       <div className="card mb-3">
@@ -206,7 +142,7 @@ function OrdersList(props) {
                         <td className="box">${total}</td>{" "}
                         {/* Display total price */}
                         <span className="box">                 
-                          <button className="btn--edit btn"><MdEdit /></button>
+                          <EditOrderList onReload={handleReload} item={item} />
                           <DeleteOrdersList onReload={handleReload} item={item} />
                         </span>
                       </tr>
