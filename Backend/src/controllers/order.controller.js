@@ -83,7 +83,7 @@ export const getAllOrders = async (req, res) => {
 };
 export const updateOrderById = async (req, res) => {
   try {
-    const { id } = req.params; // Get the order ID from the request parameters
+    const { orderId } = req.params; // Get the order ID from the request parameters
     const {
       customerPhoneNumber, // Customer phone number from request body
       productNames, // Array of product names to be added to the order
@@ -94,7 +94,7 @@ export const updateOrderById = async (req, res) => {
     } = req.body;
 
     // Find the order by ID
-    const order = await Order.findById(id);
+    const order = await Order.findById(orderId);
     if (!order) {
       return res.status(404).json({ success: false, error: 'Order not found' });
     }
@@ -134,6 +134,7 @@ export const updateOrderById = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
+    console.log(error);
     return res.status(500).json({ success: false, error: 'Could not update order' });
   }
 };

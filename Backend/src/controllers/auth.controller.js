@@ -99,9 +99,9 @@ export const signinHandler = async (req, res) => {
     await User.findByIdAndUpdate(userFound._id, {
       tokens: [{ token, signedAt: Date.now().toString() }]
     });
-
-    res.json({ success: true, data: userFound, token });
     userFound.loginAttempts=0;
+    res.json({ success: true, data: userFound, token });
+    
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Server error" });
