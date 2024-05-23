@@ -4,6 +4,8 @@ import { FaGift, FaShoppingCart, FaProductHunt } from "react-icons/fa";
 import { PiUsersThreeFill } from "react-icons/pi";
 import { BiSolidReport } from "react-icons/bi";
 import { BiSupport } from "react-icons/bi";
+import { IoPersonCircleSharp } from "react-icons/io5";
+
 
 
 //sass ./src/utils/scss/style.scss ./src/utils/css/style.css --watch
@@ -41,21 +43,22 @@ function Menu() {
               </NavLink>
             </li>
             <li>
-              <BiSolidReport className="icon" />
-              <NavLink className="navlink" to="/">
-                Report
-              </NavLink>
-            </li>
-            <li>
-              <FaShoppingCart className="icon" />
-              <NavLink className="navlink" to="/">
-                Stores
-              </NavLink>
-            </li>
-            <li>
               <PiUsersThreeFill className="icon" />
               <NavLink className="navlink" to="/Customer">
                 Customers
+              </NavLink>
+            </li>
+            <li>
+              <IoPersonCircleSharp className="icon" />
+              <NavLink className="navlink" to="/employee">
+                Employee
+              </NavLink>
+            </li>
+
+            <li>
+              <BiSolidReport className="icon" />
+              <NavLink className="navlink" to="/chart">
+                Report
               </NavLink>
             </li>
             <li>

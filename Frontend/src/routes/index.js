@@ -7,6 +7,9 @@ import Login from "../pages/Login";
 import { PrivateRoute } from "../App";
 import Register from "../pages/Register";
 import CreateOrderList from "../pages/OrdersList/CreateOrderList";
+import RevenueChart from "../pages/Report/chart.js";
+import Employee from "../pages/Employee";
+import Profile from "../pages/Profile";
 // import { useAuth } from '../AuthContext';
 // import { Navigate } from 'react-router-dom';
 
@@ -45,6 +48,20 @@ export const routes = [
         path: "customer",
         element: <Customer />,
       },
+      {
+        path: "chart",
+        element: <RevenueChart />,
+      },
+      {
+        path: "employee",
+        element: <Employee />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      }
     ],
+    
   },
 ];
+

@@ -3,19 +3,20 @@ import { getResource } from "../../services/services";
 import GoBack from "../../components/GoBack";
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 
-import CreateCustomer from "./CreateCustomer";
-import DeleteCustomer from "./DeleteCustomer";
-import EditCustomer from "./EditCustomer";
+import CreateEmployeeList from "./CreateEmployee";
+import DeleteEmployeeList from "./DeleteEmployee";
+// import EditEmployeeList from "./EditEmployee";
 
-function CustomerList(props) {
-  const api = "customer";
+function EmployeeList(props) {
+  const api = "users";
   const { reload } = props;
   const [data, setData] = useState([]);
-  const [editReload, setEditReload] = useState(false);
+
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize] = useState(6); // Số mục trên mỗi trang
+  const [pageSize] = useState(5); // Số mục trên mỗi trang
   const [totalPages, setTotalPages] = useState(0);
   const [startIndex, setStartIndex] = useState(0); // Chỉ số bắt đầu của mỗi trang
+  const [editReload, setEditReload] = useState(false);
 
   const handleReload = () => {
     setEditReload(!editReload);
@@ -55,34 +56,41 @@ function CustomerList(props) {
           <span className="card-button">
             <GoBack />
           </span>
-          <strong>Danh sách khách hàng</strong>
+          <strong>Danh sách nhân viên</strong>
           <span className="card-button">
-            <CreateCustomer onReload={handleReload} />
+            <CreateEmployeeList onReload={handleReload} />
           </span>
         </div>
-        <div className="card-body" style={{ position: "relative" }}>
+        <div className="card-body" style={{ position: "relative", overflow: "auto" }}>
           <table className="table text-center">
             <thead>
               <tr className="column column-thead">
-                <th className="box box-thead">Name</th>
+                <th className="box box-thead">STT</th>
+                <th className="box box-thead">User Name</th>
                 <th className="box box-thead">Email</th>
-                <th className="box box-thead">Phone Number</th>
-                <th className="box box-thead">Address</th>
+                <th className="box box-thead">Account issuance date</th>
                 <th className="box box-thead">Actions</th>
               </tr>
             </thead>
             <tbody>
               {data.data &&
-                data.data.slice(startIndex, startIndex + pageSize)
+                data.data
+                  .slice(startIndex, startIndex + pageSize)
                   .map((item, index) => (
                     <tr className="column" key={item._id}>
-                      <td className="box">{item.name}</td>
+                      <td className="box">{startIndex + index + 1}</td>
+                      <td className="box">{item.username}</td>
                       <td className="box">{item.email}</td>
-                      <td className="box">{item.phone_number}</td>
-                      <td className="box">{item.address}</td>
                       <td className="box">
-                        <EditCustomer onReload={handleReload} item={item} />
-                        <DeleteCustomer onReload={handleReload} item={item} />
+                        {new Date(item.createdAt).toLocaleDateString(undefined, {
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit'
+                        })}
+                      </td>
+                      <td className="box">
+                        {/* <EditEmployeeList onReload={handleReload} item={item} /> */}
+                        <DeleteEmployeeList onReload={handleReload} item={item} />
                       </td>
                     </tr>
                   ))}
@@ -91,10 +99,18 @@ function CustomerList(props) {
         </div>
       </div>
       <div className="buttonnext">
-        <button className="box" onClick={handlePreviousPage} disabled={currentPage === 1}>
+        <button
+          className="button"
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+        >
           <GrLinkPrevious />
         </button>
-        <button className="button" onClick={handleNextPage} disabled={currentPage === totalPages}>
+        <button
+          className="button"
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+        >
           <GrLinkNext />
         </button>
       </div>
@@ -102,4 +118,4 @@ function CustomerList(props) {
   );
 }
 
-export default CustomerList;
+export default EmployeeList;

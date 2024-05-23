@@ -1,17 +1,20 @@
 * {
   box-sizing: border-box;
+
 }
 
 .all {
   padding: 20px;
   background-color: #ddd;
+  height: 100vh;
 }
 
 .sidebar {
   background-color: #adb9ab;
   border: 1px solid #ddd;
   border-radius: 20px;
-  min-height: 100%;
+  min-height: 90%;
+  height: 94vh;
 }
 
 .sidebar--header {
@@ -60,13 +63,26 @@
   padding: 5px 10px;
 }
 
-.content--header__icon {
+/* .content--header__icon {
   width: 5%;
-}
+  text-align: left;
+} */
 
 .content--header__login {
-  width: 15%;
-  text-align: right;
+  width: 20%;
+  text-align: center;
+}
+
+.content--header__login button {
+  border: none;
+  background: none;
+  font-size: 120%;
+  left: auto;
+}
+
+.content--header__login .icon {
+  margin-right: 20px;
+
 }
 
 .content--header__login span {
@@ -86,6 +102,7 @@
 .card {
   margin-top: 20px;
   border-radius: 15px;
+  height: 77vh;
 }
 
 .card-button {
@@ -102,9 +119,18 @@
   font-weight: 700;
 }
 
+.card-body {
+  height: 77vh;
+  overflow: auto;
+}
+
 .card th,
 .card td {
   border-style: none;
+}
+
+.overflow-hidden {
+  overflow: hidden;
 }
 
 .card .table .column {
@@ -183,9 +209,31 @@
   background-color: #0056b3;
 }
 
-/*# sourceMappingURL=style.css.map */
+.button {
+  border: none;
+}
 
-/* Login */
+.buttonnext {
+  margin-top: auto;
+  /* Đẩy container xuống dưới cùng */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  /* Khoảng cách giữa các nút */
+
+}
+
+.buttonnext button {
+  border: none;
+  border-radius: 15%;
+  background: none;
+}
+
+.buttonnext button:hover {
+  background-color: #adb9ab;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 .login-page {
@@ -298,4 +346,107 @@
 .login label a {
   color: #fff;
   text-decoration: none;
+  margin-left: 10px;
+}
+.Dasboard{
+  max-width:960px;
+}
+/* Dasboard */
+.Dasboard .contaner {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full height of the viewport */
+  width: 100vw;  /* Full width of the viewport */
+  box-sizing: border-box;
+  padding: 20px;
+}
+.Dasboard .header h1{
+  font-size: 30px; /* Điều chỉnh kích thước chữ ở đây */
+  color: #0b0b0b; /* Màu chữ (nếu cần) */
+  font-weight: bold; /* Độ đậm của chữ (nếu cần) */
+  margin: 20px 0; /* Khoảng cách trên dưới (nếu cần) */
+
+}
+.Dasboard .hearder_title{
+  width: 220px;
+  height: 50px;
+}
+.Dasboard .hearder_title h1{
+  font-size: 25px;
+
+}
+.Dasboard .contaner_content{
+  display: flex;
+  background-color: #f3e7e7; /* Thiết lập màu nền thành màu xám */
+  padding: 20px; /* Thêm khoảng đệm bên trong 20px */
+  height: 100%; /* độ hiển thị */
+  width: 100%; /* Set specific width */
+  gap: 15px;
+ flex-direction: column;
+ position: relative;
+
+
+
+}
+.Dasboard .contaner_content .box_content_0{
+  top: 90px;
+  left: 50px;
+  gap: 100px;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  width: 80vw;
+  height: 80vw;
+ 
+
+  
+}
+
+
+.Dasboard .box_content {
+  position: relative; /* Đặt phần tử cha ở vị trí tương đối để chứa phần tử con tuyệt đối */
+  display: flex;
+  background-color: #73aa8b; /* Set background color */
+  color: #020e0c; /* Set text color */
+  justify-content: space-between; /* Phân phối không gian giữa các phần tử con */
+  border-radius: 5px; /* Add border radius */
+  width: 300px; /* Set width */
+  padding: 20px; /* Thêm padding cho mỗi box_content */
+  border: 1px solid #ccc; /* Thêm viền cho mỗi box_content */
+  height: 170px; /* Set height */
+  
+}
+.Dasboard .box_content .box_content_1{
+  position: absolute;
+  width: 100%;
+  left: 70px;
+  top: 20px;
+  
+
+}
+.Dasboard .box_content_1 h2{
+  font-size: 25px;
+}
+.Dasboard .box_content_1, .box_content_2, .icon1 {
+  margin: 0 10px; /* Tuỳ chọn: thêm khoảng cách giữa các phần tử */
+}
+.Dasboard .box_content .box_content_2{
+  width: 70px;
+  height: 50px;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  align-items:center ;
+
+  
+}
+.Dasboard .box_content .icon1{
+  width: 70px;
+  height: 50px;
+  position: absolute; /* Đặt vị trí tuyệt đối cho icon */
+  bottom: 80px; /* Cách viền dưới của phần tử cha 10px */
+  left: 10px; /* Cách viền trái của phần tử cha 10px */
+  align-items: center;
+  
+  
 }

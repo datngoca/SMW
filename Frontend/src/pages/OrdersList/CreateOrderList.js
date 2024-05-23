@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import Swal from "sweetalert2";
 import Modal from "react-modal";
 import axios from "axios";
+import { TiDelete } from "react-icons/ti";
+
+
 
 function CreateOrderList(props) {
   const [showModal, setShowModal] = useState(false);
+  const { onReload } = props
   const [formData, setFormData] = useState({
     customerPhoneNumber: "",
     productNames: [],
@@ -51,10 +55,19 @@ function CreateOrderList(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4060/api/order', formData);
+      const token = localStorage.getItem('tokens');
+      if (!token) {
+        throw new Error("No token found");
+      }
+
+      const response = await axios.post("http://localhost:4060/api/order", formData, {
+        headers: {
+          'x-access-token': token
+        }
+      });
       if (response) {
         setShowModal(false);
-        props.onReload();
+        onReload();
         Swal.fire({
           icon: "success",
           title: "Tạo mới thành công",
@@ -66,6 +79,10 @@ function CreateOrderList(props) {
       console.error("Could not create order:", error);
       // Handle error and show appropriate message to the user
     }
+  };
+  const handleMinusProduct = (index) => {
+    const newProductNames = formData.productNames.filter((_, i) => i !== index);
+    setFormData({ ...formData, productNames: newProductNames });
   };
 
   return (
@@ -106,6 +123,9 @@ function CreateOrderList(props) {
                       onChange={(e) => handleProductChange(index, e.target.value)}
                       required
                     />
+                  </td>
+                  <td>
+                    <button style={{border:"none", background:"none"}} type="button" onClick={() => handleMinusProduct(index)}><TiDelete /></button>
                   </td>
                 </tr>
               ))}
@@ -155,13 +175,16 @@ function CreateOrderList(props) {
               <tr>
                 <td>payment_status</td>
                 <td>
-                  <input
-                    type="text"
+                  <select
                     name="payment_status"
                     value={formData.payment_status}
                     onChange={handleChange}
                     required
-                  ></input>
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Failed">Failed</option>
+                  </select>
                 </td>
               </tr>
               <tr>

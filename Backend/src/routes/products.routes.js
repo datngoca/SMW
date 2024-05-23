@@ -7,7 +7,7 @@ import {
   getProductById,
   searchProduct
 } from "../controllers/products.controller.js";
-import { verifyToken, isModerator, isAdmin } from "../middlewares/authJwt.js";
+import { verifyToken, isUser, isAdmin } from "../middlewares/authJwt.js";
 
 const router = Router();
 
@@ -21,12 +21,12 @@ router.get("/", getProducts);
 // router.put("/:productId", [verifyToken, isModerator], updateProductById);
 // router.delete("/:productId", [verifyToken, isAdmin], deleteProductById);
 
-router.post("/", createProduct);
+router.post("/",verifyToken, createProduct);
 router
   .route('/:productId')
   .get(getProductById)
-  .put(updateProductById)
-  .delete(deleteProductById)
+  .put(verifyToken,updateProductById)
+  .delete(verifyToken,deleteProductById)
 
 router.get('/search/:productName', searchProduct);
 export default router;

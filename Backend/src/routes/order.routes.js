@@ -36,10 +36,14 @@ router.get("/:orderId/customer", getCustomer);
 
 router
   .route('/:orderId/customer/:CustomerId')
-  .post(createCustomer)
-  .get(getCustomerById)
-  .put(updateCustomer)
-  .delete(deleteCustomer)
+  .post(verifyToken, createCustomer)
+  .get(verifyToken,getCustomerById)
+  .put(verifyToken,updateCustomer)
+  .delete(verifyToken,deleteCustomer)
+
+
+
+
 
 // Tạo mới một sản phẩm trong order
 router.get("/:orderId/products", getAllProduct);

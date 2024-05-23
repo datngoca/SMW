@@ -150,7 +150,10 @@ function OrdersList(props) {
                   })}
             </tbody>
           </table>
-          <div style={{ position: "absolute", bottom: 15, right: 20 }}>
+
+        </div>
+      </div>
+      <div className="buttonnext">
             <button
               className="button"
               onClick={handlePreviousPage}
@@ -166,8 +169,6 @@ function OrdersList(props) {
               <GrLinkNext />
             </button>
           </div>
-        </div>
-      </div>
     </>
   );
 }

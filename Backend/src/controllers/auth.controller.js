@@ -78,7 +78,7 @@ export const signinHandler = async (req, res) => {
           userFound.loginAttempts = 0;
           await userFound.save();
           console.log("Login attempts reset successfully.");
-        }, 10000); // 10 seconds
+        }, 300000); // 5 phút
 
         return res.status(400).json({ message: "Bạn đã nhập sai mật khẩu quá nhiều lần" });
       }
@@ -100,7 +100,12 @@ export const signinHandler = async (req, res) => {
       tokens: [{ token, signedAt: Date.now().toString() }]
     });
     userFound.loginAttempts=0;
-    res.json({ success: true, data: userFound, token });
+    await userFound.save();
+    
+    const roles = userFound.roles.map(role => role.name);
+
+    res.json({ success: true, data: { user: userFound, roles }, token });
+    // res.json({ success: true, data: userFound, token });
     
   } catch (error) {
     console.log(error);
@@ -135,5 +140,4 @@ export const logoutHandler = async (req, res) => {
       return res.status(401).json({ message: "Unauthorized!" });
     }
   }
-
 };

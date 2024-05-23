@@ -16,10 +16,10 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:4060/api/auth/signin", { email, password });
-      if(response){
+      if (response) {
         Swal.fire({
           icon: "success",
-          title: "Đăng nhập thành ",
+          title: "Đăng nhập thành công",
           showConfirmButton: false,
           timer: 3000,
         });
@@ -38,7 +38,7 @@ function Login() {
 
   return (
     <div className="login-page">
-      <div className="login ">
+      <div className="login">
         <form onSubmit={handleSubmit}>
           <div className="box">
             <div className="container">
@@ -53,11 +53,11 @@ function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-                
+
                 <i className="bx bx-user"></i>
               </div>
               <div className="input-field">
-                
+
                 <input
                   type="password"
                   className="input"
@@ -66,7 +66,7 @@ function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
-               
+
                 <i className="bx bx-lock-alt"></i>
               </div>
               <div className="input-field">
@@ -74,7 +74,14 @@ function Login() {
               </div>
               <div className="bottom">
                 <div className="right">
-                  <label><a href="/register">Already have an account?</a></label>
+                  <label>
+                    <p style={{ display: "inline", whiteSpace: "nowrap" }}>
+                      Don't have an account?
+                      <a style={{ color: "white", fontWeight: "bold", textDecoration: "underline" }} href="/register">
+                        Register
+                      </a>
+                    </p>
+                  </label>
                 </div>
               </div>
             </div>

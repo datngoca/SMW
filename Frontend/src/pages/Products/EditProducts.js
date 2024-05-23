@@ -4,28 +4,25 @@ import Modal from "react-modal";
 import { MdEdit } from "react-icons/md";
 import axios from "axios";
 
-
-function EditOrderList(props) {
+function EditProducts(props) {
     const [showModal, setShowModal] = useState(false);
     const { item, onReload } = props;
     const [formData, setFormData] = useState({
-        customerPhoneNumber: "",
-        productNames: [],
-        order_date: "",
-        shipping_address: "",
-        payment_method: "",
-        payment_status: ""
+        name: "",
+        category: "",
+        no_of_Products: "",
+        price: "",
+        serviceProvider: ""
     });
 
     useEffect(() => {
         if (item) {
             setFormData({
-                customerPhoneNumber: item.customer.phone_number || "",
-                productNames: item.product.map(product => product.name) || [],
-                order_date: item.order_date || "",
-                shipping_address: item.shipping_address || "",
-                payment_method: item.payment_method || "",
-                payment_status: item.payment_status || ""
+                name: item.name || "",
+                category: item.category || "",
+                no_of_Products: item.no_of_Products || "",
+                price: item.price || "",
+                serviceProvider: item.serviceProvider || ""
             });
         }
     }, [item]);
@@ -46,12 +43,6 @@ function EditOrderList(props) {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleProductChange = (index, value) => {
-        const newProductNames = [...formData.productNames];
-        newProductNames[index] = value;
-        setFormData({ ...formData, productNames: newProductNames });
-    };
-
     const openModal = () => {
         setShowModal(true);
     };
@@ -68,7 +59,7 @@ function EditOrderList(props) {
               throw new Error("No token found");
             }
         
-            const response = await axios.put(`http://localhost:4060/api/order/${item._id}`, formData, {
+            const response = await axios.put(`http://localhost:4060/api/products/${item._id}`, formData, {
               headers: {
                 'x-access-token': token
               }
@@ -109,74 +100,60 @@ function EditOrderList(props) {
                     <table className="table">
                         <tbody>
                             <tr>
-                                <td>Phone Customer</td>
+                                <td>Tên sản phẩm</td>
                                 <td>
                                     <input
                                         type="text"
-                                        name="customerPhoneNumber"
-                                        value={formData.customerPhoneNumber}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </td>
-                            </tr>
-                            {formData.productNames.map((productName, index) => (
-                                <tr key={index}>
-                                    <td>Product {index + 1}</td>
-                                    <td>
-                                        <input
-                                            type="text"
-                                            name={`productName${index}`} // Use unique name for each product input
-                                            value={productName} // Set value to specific product name
-                                            onChange={(e) => handleProductChange(index, e.target.value)}
-                                            required
-                                        />
-                                    </td>
-                                </tr>
-                            ))}
-                            <tr>
-                                <td>Order Date</td>
-                                <td>
-                                    <input
-                                        type="date"
-                                        name="order_date"
-                                        value={formData.order_date}
+                                        name="name"
+                                        value={formData.name}
                                         onChange={handleChange}
                                         required
                                     />
                                 </td>
                             </tr>
                             <tr>
-                                <td>Shipping Address</td>
+                                <td>Loại sản phẩm</td>
                                 <td>
                                     <input
                                         type="text"
-                                        name="shipping_address"
-                                        value={formData.shipping_address}
+                                        name="category"
+                                        value={formData.category}
                                         onChange={handleChange}
                                         required
                                     />
                                 </td>
                             </tr>
                             <tr>
-                                <td>Payment Method</td>
+                                <td>Số lượng sản phẩm</td>
                                 <td>
                                     <input
-                                        type="text"
-                                        name="payment_method"
-                                        value={formData.payment_method}
+                                        type="number"
+                                        name="no_of_Products"
+                                        value={formData.no_of_Products}
                                         onChange={handleChange}
                                         required
                                     />
                                 </td>
                             </tr>
                             <tr>
-                                <td>Payment Status</td>
+                                <td>Giá</td>
+                                <td>
+                                    <input
+                                        type="number"
+                                        name="price"
+                                        value={formData.price}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Nhà cung cấp</td>
                                 <td>
                                     <input
                                         type="text"
-                                        name="payment_status"
-                                        value={formData.payment_status}
+                                        name="serviceProvider"
+                                        value={formData.serviceProvider}
                                         onChange={handleChange}
                                         required
                                     />
@@ -196,4 +173,4 @@ function EditOrderList(props) {
     );
 }
 
-export default EditOrderList;
+export default EditProducts;

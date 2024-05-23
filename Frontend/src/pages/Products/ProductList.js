@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { getResource } from "../../services/services";
 import GoBack from "../../components/GoBack";
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
-import { MdEdit } from "react-icons/md";
+
 import CreateProducts from "./CreateProducts";
 import DeleteProducts from "./DeleteProducts";
+import EditProducts from "./EditProducts";
 
 function ProductList(props) {
   const api = "products";
@@ -60,7 +61,7 @@ function ProductList(props) {
             <CreateProducts onReload={handleReload} />
           </span>
         </div>
-        <div className="card-body" style={{ position: "relative" }}>
+        <div className="card-body" style={{ position: "relative", overflow:"auto" }}>
           <table className="table text-center">
             <thead>
               <tr className="column column-thead">
@@ -90,14 +91,16 @@ function ProductList(props) {
                         {item.no_of_Products === 0 ? "Hết hàng" : "Còn hàng"}{" "}
                       </td>
                       <td className="box">
-                        <button className="btn--edit btn"><MdEdit /></button>
-                        <DeleteProducts onReload={handleReload} item={item}/>         
+                        <EditProducts onReload={handleReload} item={item} />
+                        <DeleteProducts onReload={handleReload} item={item} />
                       </td>
                     </tr>
                   ))}
             </tbody>
           </table>
-          <div style={{ position: "absolute", bottom: 15, right: 20 }}>
+        </div>
+      </div>
+      <div className="buttonnext">
             <button
               className="button"
               onClick={handlePreviousPage}
@@ -113,8 +116,6 @@ function ProductList(props) {
               <GrLinkNext />
             </button>
           </div>
-        </div>
-      </div>
     </>
   );
 }

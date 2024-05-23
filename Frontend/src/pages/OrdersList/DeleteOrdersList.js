@@ -1,14 +1,22 @@
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
-import { deleteResource } from "../../services/services";
 import { MdDelete } from "react-icons/md";
+import axios from "axios";
 
 function DeleteOrdersList(props) {
-  const api = "order";
   const { item, onReload } = props;
 
   const deleteItem = async () => {
-    const result = await deleteResource(api, item._id);
+    const token = localStorage.getItem('tokens');
+    if (!token) {
+      throw new Error("No token found");
+    }
+
+    const result = await axios.delete(`http://localhost:4060/api/order/${item._id}`, {
+      headers: {
+        'x-access-token': token
+      }
+    });
     if (result) {
       onReload();
       Swal.fire({

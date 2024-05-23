@@ -8,14 +8,25 @@ function Register() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rePassword, setRePassword] = useState("");
   const [username, setUsername] = useState("");
-  const [roles, setRoles] = useState("");
-  // const [error, setError] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4060/api/auth/signup", { username, email, password,  roles: roles.length > 0 ? roles : ["user"] });
+      if (password !== rePassword) {
+        Swal.fire({
+          icon: "error",
+          title: "Mật khẩu không khớp",
+          showConfirmButton: false,
+          timer: 3000,
+        });
+        setPassword("");
+        setRePassword("");
+        return;
+      }
+      const response = await axios.post("http://localhost:4060/api/auth/signup", { username, email, password, roles: ["admin"] });
       if (response) {
         Swal.fire({
           icon: "success",
@@ -25,20 +36,12 @@ function Register() {
         });
         navigate("/login");
       }
-      
+
     } catch (error) {
       if (error.response) {
-        alert(error.response.data.message);
+        setError(error.response.data.message);
       }
       console.error("Đăng nhập thất bại:", error);
-    }
-  };
-  const handleRoleChange = (e) => {
-    const { value, checked } = e.target;
-    if (checked) {
-      setRoles(prevRoles => [...prevRoles, value]);
-    } else {
-      setRoles(prevRoles => prevRoles.filter(role => role !== value));
     }
   };
 
@@ -48,7 +51,6 @@ function Register() {
         <form onSubmit={handleSubmit}>
           <div className="box">
             <div className="container">
-              {/* <div className="top-header"> */}
               <div className="input-field">
                 <input
                   className="input"
@@ -82,33 +84,31 @@ function Register() {
                 />
                 <i className="bx bx-lock-alt"></i>
               </div>
-              <div style={{color: "#fff"}}>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="admin"
-                    checked={roles.includes('admin')}
-                    onChange={handleRoleChange}
-                  />
-                  Admin
-                </label>
-                <label>
-                  <input
-                    type="checkbox"
-                    value="user"
-                    checked={roles.includes('user')}
-                    onChange={handleRoleChange}
-                  />
-                  User
-                </label>
-                {/* Add more roles if needed */}
+              <div className="input-field">
+                <input
+                  type="password"
+                  className="input"
+                  placeholder="rePassword"
+                  value={rePassword}
+                  onChange={(e) => setRePassword(e.target.value)}
+                  required
+                />
+                <i className="bx bx-lock-alt"></i>
               </div>
               <div className="input-field">
                 <input type="submit" className="submit-login" value="Register" />
               </div>
               <div className="bottom">
                 <div className="right">
-                  <label><a href="/login">Back to Login</a></label>
+                  <label>
+                    <p style={{ display: "inline", whiteSpace: "nowrap" }}>
+                      Already have an account?
+                      <a style={{ color: "white", fontWeight: "bold", textDecoration: "underline" }} href="/login">
+                        Login
+                      </a>
+                    </p>
+
+                  </label>
                 </div>
               </div>
             </div>

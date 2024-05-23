@@ -12,8 +12,13 @@ export function AuthProvider() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const login = () => {
-
-    setIsLoggedIn(true);
+    const token = localStorage.getItem('tokens');
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+    
   };
 
   const logout = () => {

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import 'sweetalert2/src/sweetalert2.scss';
 import Modal from "react-modal";
+import axios from "axios";
 
 function CreateProducts(props) {
   const [showModal, setShowModal] = useState(false);
@@ -41,7 +41,16 @@ function CreateProducts(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const result = await axios.post('http://localhost:4060/api/customer', formData);
+      const token = localStorage.getItem('tokens');
+      if (!token) {
+        throw new Error("No token found");
+      }
+
+      const result = await axios.post("http://localhost:4060/api/customer", formData, {
+        headers: {
+          'x-access-token': token
+        }
+      });
       if (result) {
         setShowModal(false);
         onReload();
@@ -57,7 +66,7 @@ function CreateProducts(props) {
       // Xử lý lỗi và hiển thị thông báo phù hợp cho người dùng
     }
   };
-  
+
   return (
     <>
       <button onClick={openModal} className="btn">

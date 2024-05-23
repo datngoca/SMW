@@ -1,32 +1,33 @@
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
+// import { deleteResource } from "../../services/services";
 import { MdDelete } from "react-icons/md";
+// import { deleteResource } from "../../services/services";
 import axios from "axios";
 
-function DeleteCustomer(props) {
-  const { item, onReload } = props;
 
+function DeleteProducts(props) {
+  const token = localStorage.getItem('tokens');
+  const {item, onReload}=props;
   const deleteItem = async () => {
-    const token = localStorage.getItem('tokens');
     if (!token) {
       throw new Error("No token found");
     }
-
-    const result = await axios.delete(`http://localhost:4060/api/customer/${item._id}`, {
+    const result = await axios.delete(`http://localhost:4060/api/users/${item._id}`, {
       headers: {
         'x-access-token': token
       }
     });
-
-    if (result) {
-      onReload();
-      Swal.fire({
-        title: "Đã xóa!",
-        text: "Bạn đã xóa thành công.",
-        icon: "success",
-      });
-    }
-  };
+      if (result) {
+        onReload();
+        Swal.fire({
+          title: "Đã xóa!",
+          text: "Bạn đã xóa thành công.",
+          icon: "success",
+        });
+      }
+  }
+ 
 
   const handleDelete = () => {
     // console.log(item.id);
@@ -55,4 +56,4 @@ function DeleteCustomer(props) {
   );
 }
 
-export default DeleteCustomer;
+export default DeleteProducts;
