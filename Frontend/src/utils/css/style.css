@@ -1,47 +1,38 @@
 * {
   box-sizing: border-box;
-
 }
 
 .all {
   padding: 20px;
   background-color: #ddd;
-  height: 100vh;
 }
 
 .sidebar {
   background-color: #adb9ab;
   border: 1px solid #ddd;
   border-radius: 20px;
-  min-height: 90%;
-  height: 94vh;
+  min-height: 100%;
 }
-
 .sidebar--header {
   text-align: center;
   font-weight: 700;
   margin: 20px 0;
 }
-
 .sidebar--header__image {
   width: 70px;
   height: auto;
 }
-
 .sidebar--menu ul {
   list-style-type: none;
   font-weight: 500;
 }
-
 .sidebar--menu ul li {
   margin-bottom: 20px;
 }
-
 .sidebar--menu ul li .icon {
   margin-right: 10px;
   font-size: 20px;
 }
-
 .sidebar--menu ul li .navlink {
   text-decoration: none;
   color: #000;
@@ -52,44 +43,25 @@
   align-items: center;
   margin-right: 10px;
 }
-
 .content--header__title {
   width: 80%;
   text-align: center;
 }
-
 .content--header__title span {
   background-color: #d1e7dd;
   padding: 5px 10px;
 }
-
-/* .content--header__icon {
+.content--header__icon {
   width: 5%;
-  text-align: left;
-} */
-
+}
 .content--header__login {
-  width: 20%;
-  text-align: center;
+  width: 15%;
+  text-align: right;
 }
-
-.content--header__login button {
-  border: none;
-  background: none;
-  font-size: 120%;
-  left: auto;
-}
-
-.content--header__login .icon {
-  margin-right: 20px;
-
-}
-
 .content--header__login span {
   margin-right: 10px;
   font-weight: 500;
 }
-
 .content--header__login img {
   width: 50px;
 }
@@ -102,18 +74,14 @@
 .card {
   margin-top: 20px;
   border-radius: 15px;
-  height: 77vh;
 }
-
 .card-button {
   margin-right: 15px;
 }
-
 .card-header {
   display: flex;
   align-items: center;
 }
-
 .card-header strong {
   font-size: 22px;
   font-weight: 700;
@@ -131,17 +99,10 @@
 .card td {
   border-style: none;
 }
-
-.overflow-hidden {
-  overflow: hidden;
-}
-
 .card .table .column {
   padding: 8px 5px;
   background-color: #ddd;
   display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
   align-items: center;
   flex-wrap: nowrap;
   margin-bottom: 20px;
@@ -149,16 +110,13 @@
   width: 100%;
   overflow: auto;
 }
-
 .card .table .column .box {
   background-color: #ddd;
   width: 20%;
 }
-
 .card .table .column-thead {
   background-color: #fff;
 }
-
 .card .table .column-thead .box-thead {
   background-color: #fff;
 }
@@ -214,134 +172,49 @@
   background-color: #0056b3;
 }
 
-.button {
-  border: none;
+.profile .card {
+  border-color: red;
 }
-
-.buttonnext {
-  margin-top: auto;
-  /* Đẩy container xuống dưới cùng */
+.profile .card-header {
+  border-color: red;
+}
+.profile .card-header .boder-right {
+  border-right: 1px solid red;
+}
+.profile .card-header .nav-tabs {
+  border-bottom: 0 !important;
+}
+.profile .card-header .nav-item {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 10px;
-  /* Khoảng cách giữa các nút */
-
+  font-size: 18px;
+  font-weight: 700;
 }
-
-.buttonnext button {
-  border: none;
-  border-radius: 15%;
-  background: none;
+.profile .card-header .nav-link {
+  min-height: 100%;
+  border: 0px;
+  background-color: #f8f8f8;
+  color: red;
 }
-
-.buttonnext button:hover {
-  background-color: #adb9ab;
+.profile .card-body {
+  padding: 50px;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
-.login-page {
-  background-image: url("../../../public/images/2.svg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-attachment: fixed;
-  font-family: 'Poppins', sans serif;
-  zoom: 1;
+.profile .card-body .item {
+  font-size: 18px;
+  margin-bottom: 8px;
 }
-
-.login .box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 90vh;
+.profile .card-body .item-title {
+  font-weight: 700;
+  margin-right: 10px;
 }
-
-.login .container {
-  width: 100%;
-  max-width: 400px;
-  /* Đảm bảo rằng container không vượt quá 400px khi màn hình lớn hơn */
-  display: flex;
-  flex-direction: column;
-  padding: 0 5%;
-  transform: translateX(15vw);
-
+.profile .change-infor {
+  padding: 30px;
 }
-
-
-.login span {
-  color: #fff;
-  font-size: small;
-  display: flex;
-  display: grid;
-  justify-content: center;
-  padding: 10px 0 10px 0;
-}
-
-.login header {
-  color: #fff;
-  font-size: 30px;
-  display: flex;
-  justify-content: center;
-  padding: 10px 0 10px 0;
-}
-
-.login .input-field {
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
-  /* Khoảng cách 15px ở trên */
+.profile .change-infor .choose-img {
   margin-bottom: 10px;
-  /* Khoảng cách 15px ở dưới */
-  align-items: center;
 }
-
-.login .input-field .input {
-  height: 45px;
-  width: 125%;
-  border: none;
-  outline: none;
-  border-radius: 30px;
-  color: #fff;
-  padding: 0 0 0 42px;
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.login i {
-  position: relative;
-  top: -31px;
-  left: 17px;
-  color: #fff;
-}
-
-.login ::-webkit-input-placeholder {
-  color: #fff;
-}
-
-.login .submit-login {
-  border: none;
-  border-radius: 30px;
-  font-size: 15px;
-  height: 45px;
-  outline: none;
-  width: 200%;
-  background: rgba(255, 255, 255, 0.7);
-  cursor: pointer;
-  transition: .3s;
-}
-
-.login .submit-login:hover {
-  box-shadow: 1px 5px 7px 1px rgba(0, 0, 0, 0.2);
-}
-
-.login .bottom {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  font-size: small;
-  color: #fff;
-  margin-top: 10px;
+.profile .button {
+  margin-top: 20px;
 }
 
 .login .left {
