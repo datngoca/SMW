@@ -35,32 +35,37 @@ export const createUser = async (req, res) => {
 };
 
 export const getUsers = async (req, res) => {
-  try {
-    // Lấy tất cả các vai trò từ database và tạo một đối tượng ánh xạ giữa ID và tên vai trò
-    const roles = await Role.find();
-    const roleMapping = {};
-    roles.forEach(role => {
-      roleMapping[role._id] = role.name;
-    });
-
-    // Lấy tất cả người dùng từ database
-    const users = await User.find();
-
-    // Thay thế ID vai trò bằng tên vai trò trong danh sách người dùng
-    const usersWithRoleNames = users.map(user => {
-      const rolesWithName = user.roles.map(roleId => roleMapping[roleId] || roleId);
-      return { ...user._doc, roles: rolesWithName };
-    });
-
-    // Lọc người dùng chỉ có vai trò là 'user'
-    const filteredUsers = usersWithRoleNames.filter(user => user.roles.includes('user'));
-
-    return res.json({ success: true, data: filteredUsers });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ success: false, message: 'Internal Server Error' });
-  }
+  const user = await User.find(req.params.userId);
+  return res.json({ success: true, data: user });
 };
+
+// export const getUsers = async (req, res) => {
+//   try {
+//     // Lấy tất cả các vai trò từ database và tạo một đối tượng ánh xạ giữa ID và tên vai trò
+//     const roles = await Role.find();
+//     const roleMapping = {};
+//     roles.forEach(role => {
+//       roleMapping[role._id] = role.name;
+//     });
+
+//     // Lấy tất cả người dùng từ database
+//     const users = await User.find();
+
+//     // Thay thế ID vai trò bằng tên vai trò trong danh sách người dùng
+//     const usersWithRoleNames = users.map(user => {
+//       const rolesWithName = user.roles.map(roleId => roleMapping[roleId] || roleId);
+//       return { ...user._doc, roles: rolesWithName };
+//     });
+
+//     // Lọc người dùng chỉ có vai trò là 'user'
+//     const filteredUsers = usersWithRoleNames.filter(user => user.roles.includes('user'));
+
+//     return res.json({ success: true, data: filteredUsers });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({ success: false, message: 'Internal Server Error' });
+//   }
+// };
 
 
 
