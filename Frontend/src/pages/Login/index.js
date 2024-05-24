@@ -25,6 +25,7 @@ function Login() {
         });
         localStorage.setItem("tokens", response.data.token);
         sessionStorage.setItem('isAuthenticated', 'true');
+        sessionStorage.setItem("email",response.data.email);
         //login();
         navigate("/");
       }
@@ -48,7 +49,7 @@ function Login() {
                 <input
                   className="input"
                   placeholder="Email"
-                  type="text"
+                  type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required

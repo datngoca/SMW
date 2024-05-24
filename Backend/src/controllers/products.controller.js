@@ -59,39 +59,35 @@ export const deleteProductById = async (req, res) => {
 export const searchProduct = async (req, res) => {
   try {
     let results;
-    console.log(req.params.productName)
-    if (req.params.productName) {
+    const productName = req.params.productName;
+    if (productName) {
       results = await Product.aggregate([
         {
-          $text:{
-          $search: {
-            index: "autocomplete",
-            autocomplete: {
-              query: req.params.productName,
-              path: "name",
-              fuzzy: {
-                maxEdits: 1,
-              },
-              tokenOrder: "sequential",
-            },
-          },
-        }
-      },
+          $match: {
+            name: {
+              $regex: productName,
+              $options: "i" 
+            }
+          }
+        },
         {
-          $product: {
+          $project: { 
             name: 1,
-            _id: 1,
-          },
+            category: 1,
+            no_of_Products: 1,
+            price: 1,
+            serviceProvider: 1,
+          }
         },
         {
-          $limit: 10,
-        },
+          $limit: 10
+        }
       ]);
-      if (results) return res.send(results);
+      return res.send(results);
     }
     res.send([]);
   } catch (error) {
     console.log(error);
-    res.send([]);
+    res.status(500).send('Internal Server Error');
   }
 }

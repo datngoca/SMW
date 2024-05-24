@@ -6,11 +6,13 @@ import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 import CreateProducts from "./CreateProducts";
 import DeleteProducts from "./DeleteProducts";
 import EditProducts from "./EditProducts";
+import axios from "axios";
 
 function ProductList(props) {
   const api = "products";
   const { reload } = props;
   const [data, setData] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(5); // Số mục trên mỗi trang
@@ -21,17 +23,62 @@ function ProductList(props) {
   const handleReload = () => {
     setEditReload(!editReload);
   };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     let result;
+  //     if (searchKeyword) {
+  //       result = axios.get(`http://localhost:4060/api/products/search/${encodeURIComponent(searchKeyword)}`)
+  //     } else {
+  //       result = await getResource(api);
+  //     }
+  //     console.log(result);
+  //     setData(result.data);
+  //     const totalPages = Math.ceil(result.data.length / pageSize);
+  //     setTotalPages(totalPages);
+  //     setStartIndex((currentPage - 1) * pageSize);
+  //   };
+  //   fetchData();
+  // }, [reload, currentPage, pageSize, editReload, searchKeyword]);
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getResource(api);
-      setData(result);
-      const totalPages = Math.ceil(result.data.length / pageSize);
-      setTotalPages(totalPages);
-      // Tính lại chỉ số bắt đầu khi dữ liệu thay đổi
-      setStartIndex((currentPage - 1) * pageSize);
+      try {
+        let result;
+        if (searchKeyword) {
+          // Nếu có từ khóa tìm kiếm, gọi API tìm kiếm và sử dụng await để đợi kết quả
+          result = await axios.get(`http://localhost:4060/api/products/search/${encodeURIComponent(searchKeyword)}`);
+        } else {
+          // Nếu không có từ khóa tìm kiếm, gọi API lấy tất cả sản phẩm
+          result = await getResource(api);
+        }
+        
+        console.log(result); // Kiểm tra kết quả
+        
+        if (result instanceof Promise) {
+          // Nếu `result` là một promise, sử dụng `.then()` để trích xuất dữ liệu
+          result.then(response => {
+            setData(response.data); // Lưu trữ dữ liệu từ API vào state
+            const totalPages = Math.ceil(response.data.length / pageSize);
+            setTotalPages(totalPages);
+            setStartIndex((currentPage - 1) * pageSize);
+          }).catch(error => {
+            console.error("Error fetching data:", error);
+            // Xử lý lỗi khi gọi API
+          });
+        } else {
+          // Nếu `result` không phải là một promise, điều này có thể xảy ra khi getResource không trả về một promise
+          setData(result); // Lưu trữ dữ liệu trực tiếp vào state
+          const totalPages = Math.ceil(result.length / pageSize);
+          setTotalPages(totalPages);
+          setStartIndex((currentPage - 1) * pageSize);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Xử lý lỗi khi gọi API
+      }
     };
     fetchData();
-  }, [reload, currentPage, pageSize, editReload]);
+  }, [reload, currentPage, pageSize, editReload, searchKeyword]);
+  
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -60,8 +107,17 @@ function ProductList(props) {
           <span className="card-button">
             <CreateProducts onReload={handleReload} />
           </span>
+          <span className="search">
+            Search{" "}
+            <input
+              type="text"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+            />
+          </span>
+
         </div>
-        <div className="card-body" style={{ position: "relative", overflow:"auto" }}>
+        <div className="card-body" style={{ position: "relative", overflow: "auto" }}>
           <table className="table text-center">
             <thead>
               <tr className="column column-thead">
@@ -101,21 +157,21 @@ function ProductList(props) {
         </div>
       </div>
       <div className="buttonnext">
-            <button
-              className="button"
-              onClick={handlePreviousPage}
-              disabled={currentPage === 1}
-            >
-              <GrLinkPrevious />
-            </button>
-            <button
-              className="button"
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-            >
-              <GrLinkNext />
-            </button>
-          </div>
+        <button
+          className="button"
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+        >
+          <GrLinkPrevious />
+        </button>
+        <button
+          className="button"
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+        >
+          <GrLinkNext />
+        </button>
+      </div>
     </>
   );
 }

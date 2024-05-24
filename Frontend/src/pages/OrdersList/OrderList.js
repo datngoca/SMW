@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getResource } from "../../services/services";
 import GoBack from "../../components/GoBack";
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
+import axios from "axios";
 
 // import axios from 'axios';
 import CreateOrderList from "./CreateOrderList";
@@ -13,6 +14,7 @@ function OrdersList(props) {
   const { reload } = props;
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchKeyword, setSearchKeyword] = useState("");
   //eslint-disable-next-line
   const [pageSize, setPageSize] = useState(5); // Số mục trên mỗi trang
   const [totalPages, setTotalPages] = useState(0);
@@ -23,29 +25,51 @@ function OrdersList(props) {
     setEditReload(!editReload);
   };
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await getResource(api);
+  //     setData(result);
+  //     const totalPages = Math.ceil(result.data.length / pageSize);
+  //     setTotalPages(totalPages);
+  //     // Tính lại chỉ số bắt đầu khi dữ liệu thay đổi
+  //     setStartIndex((currentPage - 1) * pageSize);
+  //   };
+  //   fetchData();
+  // }, [reload, currentPage, pageSize, editReload]);
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getResource(api);
-      setData(result);
-      const totalPages = Math.ceil(result.data.length / pageSize);
-      setTotalPages(totalPages);
-      // Tính lại chỉ số bắt đầu khi dữ liệu thay đổi
-      setStartIndex((currentPage - 1) * pageSize);
+      try {
+        let result;
+        if (searchKeyword) {
+          result = await axios.get(`http://localhost:4060/api/order/search/${encodeURIComponent(searchKeyword)}`);
+        } else {
+          result = await getResource(api);
+        }
+        console.log(result);
+        if (result instanceof Promise) {
+          result.then(response => {
+            setData(response.data);
+            const totalPages = Math.ceil(response.data.length / pageSize);
+            setTotalPages(totalPages);
+            setStartIndex((currentPage - 1) * pageSize);
+          }).catch(error => {
+            console.error("Error fetching data:", error);
+            // Xử lý lỗi khi gọi API
+          });
+        } else {
+          // Nếu `result` không phải là một promise, điều này có thể xảy ra khi getResource không trả về một promise
+          setData(result); // Lưu trữ dữ liệu trực tiếp vào state
+          const totalPages = Math.ceil(result.length / pageSize);
+          setTotalPages(totalPages);
+          setStartIndex((currentPage - 1) * pageSize);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Xử lý lỗi khi gọi API
+      }
     };
     fetchData();
-  }, [reload, currentPage, pageSize, editReload]);
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await getResource(api);
-      setData(result);
-      const totalPages = Math.ceil(result.data.length / pageSize);
-      setTotalPages(totalPages);
-      // Tính lại chỉ số bắt đầu khi dữ liệu thay đổi
-      setStartIndex((currentPage - 1) * pageSize);
-    };
-    fetchData();
-  }, [reload, currentPage, pageSize, editReload]);
-
+  }, [reload, currentPage, pageSize, editReload, searchKeyword]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -55,7 +79,7 @@ function OrdersList(props) {
     }
   };
 
- 
+
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -74,6 +98,14 @@ function OrdersList(props) {
           <strong>Danh sách đặt hàng</strong>
           <span className="card-button">
             <CreateOrderList onReload={handleReload} />
+          </span>
+          <span className="search">
+            Search{" "}
+            <input
+              type="text"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+            />
           </span>
         </div>
         <div className="card-body" style={{ position: "relative" }}>
@@ -141,7 +173,7 @@ function OrdersList(props) {
                         </td>
                         <td className="box">${total}</td>{" "}
                         {/* Display total price */}
-                        <span className="box">                 
+                        <span className="box">
                           <EditOrderList onReload={handleReload} item={item} />
                           <DeleteOrdersList onReload={handleReload} item={item} />
                         </span>
@@ -154,21 +186,21 @@ function OrdersList(props) {
         </div>
       </div>
       <div className="buttonnext">
-            <button
-              className="button"
-              onClick={handlePreviousPage}
-              disabled={currentPage === 1}
-            >
-              <GrLinkPrevious />
-            </button>
-            <button
-              className="button"
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-            >
-              <GrLinkNext />
-            </button>
-          </div>
+        <button
+          className="button"
+          onClick={handlePreviousPage}
+          disabled={currentPage === 1}
+        >
+          <GrLinkPrevious />
+        </button>
+        <button
+          className="button"
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+        >
+          <GrLinkNext />
+        </button>
+      </div>
     </>
   );
 }

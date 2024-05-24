@@ -64,5 +64,39 @@ export const deleteCustomer = async (req, res) => {
     res.status(500).json({ error: "Error deleting customer", message: error.message });
   }
 };
-//orderhistory
+export const searchCustomer = async (req, res) => {
+  try {
+    let results;
+    const name = req.params.name;
+    if (name) {
+      results = await Customer.aggregate([
+        {
+          $match: {
+            name: {
+              $regex: name,
+              $options: "i" 
+            }
+          }
+        },
+        {
+          $project: { 
+            name: 1,
+            email: 1,
+            no_of_Products: 1,
+            phone_number: 1,
+            address: 1,
+          }
+        },
+        {
+          $limit: 10
+        }
+      ]);
+      return res.send(results);
+    }
+    res.send([]);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+}
 

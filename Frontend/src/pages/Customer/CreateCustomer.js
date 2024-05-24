@@ -98,7 +98,7 @@ function CreateProducts(props) {
                 <td>Email</td>
                 <td>
                   <input
-                    type="text"
+                    type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}

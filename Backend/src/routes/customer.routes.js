@@ -4,7 +4,8 @@ import {
   getCustomers, 
   getCustomerbyID,
   updateCustomer, 
-  deleteCustomer, 
+  deleteCustomer,
+  searchCustomer
 } from "../controllers/customer.controller.js";
 import { isAdmin, verifyToken } from "../middlewares/authJwt.js";
 import { checkExistingUser } from "../middlewares/verifySignup.js";
@@ -19,7 +20,7 @@ router
   .get(getCustomerbyID)
   .put(updateCustomer)
   .delete(deleteCustomer)
-
+router.get("/search/:name",searchCustomer);
 
 export default router;
 

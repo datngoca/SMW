@@ -35,34 +35,9 @@ export const createUser = async (req, res) => {
 };
 
 export const getUsers = async (req, res) => {
-  try {
-    // Lấy tất cả các vai trò từ database và tạo một đối tượng ánh xạ giữa ID và tên vai trò
-    const roles = await Role.find();
-    const roleMapping = {};
-    roles.forEach(role => {
-      roleMapping[role._id] = role.name;
-    });
-
-    // Lấy tất cả người dùng từ database
-    const users = await User.find();
-
-    // Thay thế ID vai trò bằng tên vai trò trong danh sách người dùng
-    const usersWithRoleNames = users.map(user => {
-      const rolesWithName = user.roles.map(roleId => roleMapping[roleId] || roleId);
-      return { ...user._doc, roles: rolesWithName };
-    });
-
-    // Lọc người dùng chỉ có vai trò là 'user'
-    const filteredUsers = usersWithRoleNames.filter(user => user.roles.includes('user'));
-
-    return res.json({ success: true, data: filteredUsers });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ success: false, message: 'Internal Server Error' });
-  }
+  const user = await User.find(req.params.userId);
+  return res.json({ success: true, data: user });
 };
-
-
 
 export const getUser = async (req, res) => {
   const user = await User.findById(req.params.userId);
@@ -72,3 +47,47 @@ export const deleteUser = async (req, res) => {
   const user = await User.findByIdAndDelete(req.params.userId);
   return res.json({ success: true, data: user });
 };
+export const resetPassword = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { newPassword } = req.body;
+
+    // Tìm kiếm người dùng trong cơ sở dữ liệu bằng userId
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Mã hóa mật khẩu mới
+    const encryptedPassword = await User.encryptPassword(newPassword);
+
+    // Cập nhật mật khẩu mới cho người dùng
+    user.password = encryptedPassword;
+
+    // Lưu người dùng đã cập nhật vào cơ sở dữ liệu
+    await user.save();
+
+    return res.status(200).json({ success: true, message: 'Password reset successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
+export const changeIfo = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { username, email } = req.params;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+    user.username = username;
+    user.email = email;
+    const newifo = await user.save();
+    return res.status(200).json({ success: true, data: newifo });
+  }
+  catch (error) {
+    return res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+}

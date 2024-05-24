@@ -389,4 +389,20 @@ export const getProductbyID = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+export const searchOrdersByCustomerName = async (req, res) => {
+  try {
+    const customerName = req.params.customerName;
+    if (customerName) {
+      // Tìm kiếm đơn hàng dựa trên tên khách hàng
+      const orders = await Order.find({
+        "customer.name": { $regex: new RegExp(customerName, "i") } // Sử dụng biểu thức chính quy để tìm kiếm không phân biệt chữ hoa chữ thường
+      }).populate('product'); // Populate để lấy thông tin sản phẩm liên quan (nếu cần)
+      return res.json(orders);
+    }
+    res.json([]);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+};
 

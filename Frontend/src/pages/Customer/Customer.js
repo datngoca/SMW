@@ -6,11 +6,14 @@ import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
 import CreateCustomer from "./CreateCustomer";
 import DeleteCustomer from "./DeleteCustomer";
 import EditCustomer from "./EditCustomer";
+import axios from "axios";
 
 function CustomerList(props) {
   const api = "customer";
   const { reload } = props;
   const [data, setData] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState("");
+
   const [editReload, setEditReload] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(6); // Số mục trên mỗi trang
@@ -20,17 +23,52 @@ function CustomerList(props) {
   const handleReload = () => {
     setEditReload(!editReload);
   };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await getResource(api);
+  //     setData(result);
+  //     const totalPages = Math.ceil(result.data.length / pageSize);
+  //     setTotalPages(totalPages);
+  //     // Tính lại chỉ số bắt đầu khi dữ liệu thay đổi
+  //     setStartIndex((currentPage - 1) * pageSize);
+  //   };
+  //   fetchData();
+  // }, [reload, currentPage, pageSize, editReload]);
   useEffect(() => {
     const fetchData = async () => {
-      const result = await getResource(api);
-      setData(result);
-      const totalPages = Math.ceil(result.data.length / pageSize);
-      setTotalPages(totalPages);
-      // Tính lại chỉ số bắt đầu khi dữ liệu thay đổi
-      setStartIndex((currentPage - 1) * pageSize);
+      try {
+        let result;
+        if (searchKeyword) {
+          result = await axios.get(`http://localhost:4060/api/customer/search/${encodeURIComponent(searchKeyword)}`);
+        } else {
+          result = await getResource(api);
+        }      
+        console.log(result); 
+        if (result instanceof Promise) {
+          result.then(response => {
+            setData(response.data); 
+            const totalPages = Math.ceil(response.data.length / pageSize);
+            setTotalPages(totalPages);
+            setStartIndex((currentPage - 1) * pageSize);
+          }).catch(error => {
+            console.error("Error fetching data:", error);
+            // Xử lý lỗi khi gọi API
+          });
+        } else {
+          // Nếu `result` không phải là một promise, điều này có thể xảy ra khi getResource không trả về một promise
+          setData(result); // Lưu trữ dữ liệu trực tiếp vào state
+          const totalPages = Math.ceil(result.length / pageSize);
+          setTotalPages(totalPages);
+          setStartIndex((currentPage - 1) * pageSize);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Xử lý lỗi khi gọi API
+      }
     };
     fetchData();
-  }, [reload, currentPage, pageSize, editReload]);
+  }, [reload, currentPage, pageSize, editReload, searchKeyword]);
+  
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -58,6 +96,14 @@ function CustomerList(props) {
           <strong>Danh sách khách hàng</strong>
           <span className="card-button">
             <CreateCustomer onReload={handleReload} />
+          </span>
+          <span className="search">
+            Search{" "}
+            <input
+              type="text"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+            />
           </span>
         </div>
         <div className="card-body" style={{ position: "relative" }}>

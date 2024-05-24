@@ -20,5 +20,5 @@ const CustomerSchema = new Schema({
     required: true
   }
 });
-
+CustomerSchema.index({ name: 'text' });
 export default mongoose.model("Customer", CustomerSchema);
