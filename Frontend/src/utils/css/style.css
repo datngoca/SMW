@@ -509,6 +509,9 @@
     }
   }
 }
+
+
+/* dashboard */
 .contaner {
   display: flex;
   flex-direction: column;
@@ -549,8 +552,9 @@
 .box_content {
   position: relative; 
   display: flex;
-  background-color: #73aa8b; 
+  background-color: #9ecdb2; 
   color: #020e0c; 
+  
   justify-content: space-between; 
   border-radius: 5px; 
   width: 400px;
@@ -584,7 +588,7 @@
 }
 .box_content_1 h2{
   font-size: 35px;
-  color: brown;
+  color: rgb(23, 20, 181);
 }
 .box_content_1, .box_content_2, .icon1 {
   margin: 0 10px; 

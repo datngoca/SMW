@@ -49,7 +49,7 @@ function Dashboard() {
                 <h3>{totalCustomer !== null ? totalCustomer : 'Loading...'}</h3>
               </div>
               <div className="icon1">
-                <FaUser size={65} color="green" />
+                <FaUser size={65} color="#605f75" />
               </div>
             </div>
             <div className="box_content">
@@ -60,7 +60,7 @@ function Dashboard() {
                 <h3>{totalProduct !== null ? totalProduct : 'Loading...'}</h3>
               </div>
               <div className="icon1">
-                <FaShoppingCart size={65} color="green" />
+                <FaShoppingCart size={65} color="605f75" />
               </div>
             </div>
             <div className="box_content">
@@ -71,7 +71,7 @@ function Dashboard() {
                 <h3>{totalOrder !== null ? totalOrder : 'Loading...'}</h3>
               </div>
               <div className="icon1">
-                <FaMoneyBill size={65} color="green" />
+                <FaMoneyBill size={65} color="605f75" />
               </div>
             </div>
           </div>
