@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 import Order from "../models/Order.js";
+import Customer from "../models/Customer.js"
+import Product from "../models/Product.js";
 
 
 export const getMonth = async (req, res) => {
@@ -52,5 +54,16 @@ export const getYearlyRevenue = async (req, res) => {
         res.json(revenueData);
     } catch (error) {
         res.status(500).json({ message: 'Error fetching yearly revenue data', error });
+    }
+};
+export const totalInfo = async (req, res) => {
+    try {
+        const countCustomer = await Customer.countDocuments();
+        const countProduct = await Product.countDocuments();
+        const countOrder = await Order.countDocuments();
+        res.json({ countCustomer, countProduct, countOrder });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
